@@ -1,5 +1,5 @@
 {
-  "name": "japanizer",
+  "name": "ha-control",
   "private": true,
   "scripts": {
     "build": "gridsome build",

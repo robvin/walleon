@@ -9,12 +9,12 @@
 
             <div class="layout" key="layout" v-else>
                 <h1 class="logo">
-                    <g-link to="/" title="Japanizer">
+                    <g-link to="/" title="HA Control">
                         <span class="logo__symbol">翻</span>
-                        <span class="logo__wordmark">Japanizer</span>
+                        <span class="logo__wordmark">HA Control</span>
                     </g-link>
                 </h1>
-                
+
                 <button class="toggle-sidebar" :class="{ 'toggle-sidebar--active': showConsole }" @click="showConsole = !showConsole">
                     <IconSettings />
                 </button>
@@ -53,22 +53,20 @@
 
 <script>
 import rules from '../utils/rules'
-import Console from '../components/Console'
-import Intro from '../components/Intro'
+import Device from '../components/Device'
 
 export default {
     metaInfo: {
-        title: 'Japanizer by Lejtzén Design',
+        title: 'HA Control',
         meta: [
             {
-                name: 'description', content: 'This project of mine will translate everything to japanese.'
+                name: 'description', content: 'Home Assistans (HomeKit) controller.'
             },
         ],
     },
 
     components: {
-        'Console': Console,
-        'Intro': Intro,
+        'Device': Device,
     },
 
     data: function () {
