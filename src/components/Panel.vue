@@ -1,14 +1,13 @@
 <template>
-    <div class="layout">
+    <div class="panel">
         <slot></slot>
     </div>
 </template>
 
 <script>
     export default {
-        data: function () {
-            return {
-            }
+        data() {
+            return {}
         },
     }
 </script>

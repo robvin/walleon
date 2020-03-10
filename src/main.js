@@ -5,14 +5,14 @@
 import DefaultLayout from '~/layouts/Default.vue'
 
 // Icons
-import IconSettings from '@/assets/images/settings.svg?inline'
+import IconLight from '@/assets/images/light.svg?inline'
 
 export default function (Vue, { router, head, isClient }) {
     // Set default layout as a global component
     Vue.component('Layout', DefaultLayout)
 
     // Icons
-    Vue.component('IconSettings', IconSettings)
+    Vue.component('IconLight', IconLight)
 
     // Apply directive
     Vue.directive('resize', {

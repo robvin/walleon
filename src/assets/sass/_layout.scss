@@ -1,3 +1,40 @@
 //
 // Layout
 //
+
+.layout{
+    display: flex;
+    flex-wrap: nowrap;
+    height: 100vh;
+    overflow-y: hidden;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    scroll-snap-type: x mandatory;
+}
+
+.panel{
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    scroll-snap-type: x mandatory;
+    scroll-snap-align: start;
+    height: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 3rem 3rem 6rem 3rem;
+
+    &--1{
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+
+    &--2{
+        flex: 0 0 66.666%;
+        max-width: 66.666%;
+    }
+}

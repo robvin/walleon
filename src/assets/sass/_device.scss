@@ -1,0 +1,75 @@
+//
+// Device
+//
+
+.devices{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
+}
+
+.device{
+    $self: &;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 0 0 12rem;
+    max-width: 12rem;
+    height: 12rem;
+    margin: 0.5rem;
+    padding: 1rem;
+    background: rgba(255,255,255,.54);
+    border-radius: 1rem;
+    color: rgba(0,0,0,.87);
+    text-align: left;
+    transition: all ease-out 200ms;
+
+    &--loading{
+        #{$self}__icon{
+            animation-name: pulse;
+            animation-duration: 500ms;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+    }
+
+    &--active{
+        background: rgba(255,255,255,1);
+
+        #{$self}__icon{
+            background: #ffcc00; //#4dd964
+            color: rgba(255,255,255,1);
+        }
+    }
+
+    &__icon{
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        background: rgba(0,0,0,.06);
+        color: rgba(0,0,0,.32);
+        transition: all ease-out 200ms;
+
+        svg{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__label{
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    &__description{
+        font-size: 0.875rem;
+        color: rgba(0,0,0,.32);
+        font-weight: bold;
+    }
+}
