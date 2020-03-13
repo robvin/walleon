@@ -2,7 +2,7 @@
     <Layout>
         <Panel class="panel--1">
             <h1>21:31</h1>
-            <h2 style="font-weight: normal;">Tisdag, 10 mars</h2>
+            <h2 style="font-weight: normal;">Fredag, 13 mars</h2>
             <h3 style="font-weight: normal; color: rgba(255,255,255,.7)">Känns som -4° med 0% risk för regn</h3>
 
             <h4 style="margin-top: 3rem;">Kalender</h4>
