@@ -1,64 +1,68 @@
 <template>
-    <button class="device" :class="classes" @click="toggle()">
-        <div class="device__icon">
-            <IconLight />
-        </div>
-        <div class="device__label">
-            {{ name }}
-        </div>
-        <div class="device__description">
-            {{ active ? percentage + '%' : '0%' }}
-        </div>
-    </button>
+  <button class="device" :class="classes" @click="toggle()">
+    <div class="device__icon">
+      <img svg-inline src="@/assets/images/light.svg" />
+    </div>
+    <div class="device__label">
+      {{ name }}
+    </div>
+    <div class="device__description">
+      {{ active ? percentage + '%' : '0%' }}
+    </div>
+  </button>
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                loading: true,
-                active: false,
-                name: '',
-                percentage: 0,
-            }
-        },
+<script lang="ts">
+import Vue from 'vue';
 
-        computed: {
-            classes() {
-                return {
-                    'device--loading': this.loading,
-                    'device--active': this.active,
-                }
-            },
-        },
+export default Vue.extend({
+  name: 'Device',
 
-        mounted() {
-            const rooms = [
-                'Living Room',
-                'Hallway',
-                'Entrance',
-                'Dining room',
-                'Garage',
-            ]
+  data() {
+    return {
+      loading: true,
+      active: false,
+      name: '',
+      percentage: 0,
+    };
+  },
 
-            this.name = (rooms[Math.floor(Math.random() * rooms.length)]) + ' Light'
-            this.percentage = Math.floor(Math.random() * 10) * 10
+  computed: {
+    classes(): object {
+      return {
+        'device--loading': this.loading,
+        'device--active': this.active,
+      };
+    },
+  },
 
-            setTimeout(() => {
-                this.loading = false
-                this.active = Math.random() > 0.5
-            }, Math.random() * 1000)
-        },
+  mounted() {
+    const rooms = [
+      'Living Room',
+      'Hallway',
+      'Entrance',
+      'Dining room',
+      'Garage',
+    ];
 
-        methods: {
-            toggle() {
-                this.loading = true
+    this.name = `${rooms[Math.floor(Math.random() * rooms.length)]} Light`;
+    this.percentage = Math.floor(Math.random() * 10) * 10;
 
-                setTimeout(() => {
-                    this.loading = false
-                    this.active = !this.active
-                }, Math.random() * 3000)
-            },
-        },
-    }
+    setTimeout(() => {
+      this.loading = false;
+      this.active = Math.random() > 0.5;
+    }, Math.random() * 1000);
+  },
+
+  methods: {
+    toggle() {
+      this.loading = true;
+
+      setTimeout(() => {
+        this.loading = false;
+        this.active = !this.active;
+      }, Math.random() * 3000);
+    },
+  },
+});
 </script>

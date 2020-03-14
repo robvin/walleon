@@ -4,19 +4,28 @@ Control panel for Home Assistant (HomeKit)
 ## Live demo
 [View live demo](https://lejtzen.github.io/ha-control/)
 
-## Develop locally
+## Project setup
+```
+npm install
+```
 
-### 1. Install Gridsome CLI tool
-`npm install --global @gridsome/cli`
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-### 2. Install dependencies
-`npm install`
+### Compiles and minifies for production
+```
+npm run build
+```
 
-### 3. Develop
-Run `gridsome develop` to start a local dev server at `http://localhost:8080` for development
+### Lints and fixes files
+```
+npm run lint
+```
 
-### 4. Build
-Use `gridsome build` to generate static files in a `/dist` folder
+### Publish
+Publish contents of `/dist` folder in the public folder of your web server.
 
-### 5. Publish
-Publish contents of `/dist` folder in the public folder of your web server or read more about [Gridsome deployment](https://gridsome.org/docs/deployment/)
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
