@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.VUE_PUBLIC_PATH ? process.env.VUE_PUBLIC_PATH : '',
+  publicPath: './',
   chainWebpack: config => {
     config.module
       .rule('vue')
