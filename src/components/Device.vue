@@ -1,13 +1,13 @@
 <template>
-  <button class="device" :class="classes" @click="toggle()">
+  <button class="device" :class="classes" @click="toggle()" :disabled="loading">
     <div class="device__icon">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
     <div class="device__label">
-      {{ name }}
+      {{ device.name }}
     </div>
     <div class="device__description">
-      {{ active ? percentage + "%" : "0%" }}
+      Secondary info
     </div>
   </button>
 </template>
@@ -20,14 +20,17 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: true,
-      active: false,
-      name: "",
-      percentage: 0
+      loading: false
     };
   },
 
+  props: ["device"],
+
   computed: {
+    active(): boolean {
+      return this.device.state === "on";
+    },
+
     classes(): object {
       return {
         "device--loading": this.loading,
@@ -36,25 +39,13 @@ export default Vue.extend({
     }
   },
 
-  mounted() {
-    const rooms = ["Living Room", "Hallway", "Entrance", "Dining room", "Garage"];
-
-    this.name = `${rooms[Math.floor(Math.random() * rooms.length)]} Light`;
-    this.percentage = Math.floor(Math.random() * 10) * 10;
-
-    setTimeout(() => {
-      this.loading = false;
-      this.active = Math.random() > 0.5;
-    }, Math.random() * 1000);
-  },
-
   methods: {
     toggle() {
       this.loading = true;
 
       setTimeout(() => {
         this.loading = false;
-        this.active = !this.active;
+        this.device.state = this.active ? "off" : "on";
       }, Math.random() * 3000);
     }
   }
