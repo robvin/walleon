@@ -27,7 +27,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ha from "@/util/ha";
-import { Device as DeviceModel } from "@/models/Device";
+import { Device as DeviceType } from "@/types";
 import Panel from "@/components/Panel.vue";
 import Device from "@/components/Device.vue";
 
@@ -40,12 +40,12 @@ export default Vue.extend({
   },
 
   data: () => ({
-    devices: []
+    devices: [] as DeviceType[]
   }),
 
   computed: {
     panels(): object {
-      return this.devices.reduce((panels: object, device: DeviceModel) => {
+      return this.devices.reduce((panels: { [key: string]: DeviceType[] }, device: DeviceType) => {
         (panels[device.domain] = panels[device.domain] || []).push(device);
         return panels;
       }, {});
@@ -53,7 +53,7 @@ export default Vue.extend({
   },
 
   mounted(): void {
-    ha.getDevices().then(devices => {
+    ha.getDevices().then((devices: DeviceType[]) => {
       this.devices = devices;
     });
   }
