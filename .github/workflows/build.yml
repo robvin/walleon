@@ -16,7 +16,7 @@ jobs:
       - name: Installing packages
         run: npm install
 
-      - name: Build Gridsome site
+      - name: Build project
         run: yarn build
 
       - name: Deploy to GitHub Pages
