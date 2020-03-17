@@ -1,0 +1,17 @@
+{
+  "name": "Walleon",
+  "version": "dev",
+  "slug": "walleon",
+  "description": "Control panel for Home Assistant",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "hassio_api": true,
+  "hassio_role": "default",
+  "options": {},
+  "schema": {},
+  "ports": {
+    "8080/tcp": 8080
+  },
+  "webui": "[PROTO:option_name]://[HOST]:[PORT:8080]/"
+}
