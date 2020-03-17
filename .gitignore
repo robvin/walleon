@@ -1,6 +1,10 @@
 .DS_Store
-node_modules
-/dist
+
+# Build directories
+walleon/client/dist
+walleon/client/node_modules
+walleon/server/build
+walleon/server/node_modules
 
 # local env files
 .env.local

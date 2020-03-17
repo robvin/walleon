@@ -1,0 +1,47 @@
+{
+  "name": "walleon-server",
+  "description": "Walleon back-end serving stuff",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/lejtzen/ha-control",
+  "author": "lejtzen, rabinage",
+  "main": "bin/www.js",
+  "scripts": {
+    "start": "node build/bin/www.js",
+    "build": "rimraf build && cross-env NODE_ENV=production babel src -d build -s"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.8.7",
+    "koa": "^2.11.0",
+    "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "cross-env": "^7.0.2",
+    "rimraf": "^3.0.2"
+  },
+  "babel": {
+    "sourceMaps": false,
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {}
+      ]
+    ],
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  }
+}
