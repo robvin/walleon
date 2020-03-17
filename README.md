@@ -1,8 +1,8 @@
-# HA Control
+# Walleon
 Control panel for Home Assistant (HomeKit)
 
 ## Live demo
-[View live demo](https://lejtzen.github.io/ha-control/)
+[View live demo](https://lejtzen.github.io/walleon/)
 
 ## Project setup
 ```
