@@ -74,5 +74,5 @@ LABEL \
     org.label-schema.name="Walleon" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.vcs-ref=${REF} \
-    org.label-schema.vcs-url="https://github.com/lejtzen/walleon" \
+    org.label-schema.vcs-url="https://github.com/lejtzen/addon-walleon" \
     org.label-schema.vendor="walleon"
