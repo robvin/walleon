@@ -1,0 +1,95 @@
+//
+// Device
+//
+
+.device {
+    $self: &;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    background: $light-separator;
+    border-radius: 1rem;
+    text-align: left;
+    transition: all ease-out 200ms;
+
+    &::after {
+       content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
+
+    &--loading {
+        #{$self}__icon {
+            animation-name: pulse;
+            animation-duration: 500ms;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+    }
+
+    &--active {
+        background: $light-primary;
+
+        #{$self}__icon {
+            background: $yellow;
+            color: $light-primary;
+        }
+
+        #{$self}__room {
+            color: $dark-primary;
+        }
+
+        #{$self}__name {
+            color: $dark-primary;
+        }
+
+        #{$self}__state {
+            color: $dark-secondary;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        top: $spacer;
+        left: $spacer;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        background: $light-hint;
+        color: $dark-hint;
+        transition: all ease-out 200ms;
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__info {
+        position: absolute;
+        left: $spacer;
+        right: $spacer;
+        bottom: $spacer;
+    }
+
+    &__room,
+    &__name,
+    &__state {
+        @extend .smallest-title;
+        display: block;
+    }
+
+    &__room {
+        color: $light-secondary;
+    }
+
+    &__name {
+        color: $light-secondary;
+    }
+
+    &__state {
+        color: $light-hint;
+    }
+}

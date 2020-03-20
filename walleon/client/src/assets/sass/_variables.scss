@@ -1,0 +1,58 @@
+//
+// Colors
+//
+
+// Light
+$light-primary: rgba(255,255,255, 1);
+$light-secondary: rgba(255,255,255, .7);
+$light-hint: rgba(255,255,255, .5);
+$light-separator: rgba(255,255,255, .12);
+$light-shade: rgba(255,255,255, .06);
+
+// Dark
+$dark-primary: rgba(0,0,0,.87);
+$dark-secondary: rgba(0,0,0,.54);
+$dark-hint: rgba(0,0,0,.38);
+$dark-separator: rgba(0,0,0,.12);
+$dark-shade: rgba(0,0,0,.06);
+
+// Colors
+$blue: rgb(0, 122, 255);
+$indigo: rgb(175, 82, 222);
+$purple: rgb(88, 86, 214);
+$pink: rgb(255, 45, 85);
+$red: rgb(255, 59, 48);
+$orange: rgb(255, 149, 0);
+$yellow: rgb(255, 204, 0);
+$green: rgb(76, 217, 100);
+$teal: rgb(90, 200, 250);
+
+// Theme
+$primary: $yellow;
+$secondary: $dark-secondary;
+$success: $green;
+$info: $blue;
+$warning: $yellow;
+$danger: $red;
+$light: $light-primary;
+$dark: $dark-primary;
+
+// Add light and dark colors to theme colors
+$theme-colors: (
+    "light-primary": $light-primary,
+    "light-secondary": $light-secondary,
+    "light-hint": $light-hint,
+    "light-separator": $light-separator,
+    "light-shade": $light-shade,
+    "dark-primary": $dark-primary,
+    "dark-secondary": $dark-secondary,
+    "dark-hint": $dark-hint,
+    "dark-separator": $dark-separator,
+    "dark-shade": $dark-shade
+);
+
+//
+// Grid
+//
+
+$grid-gutter-width: 1rem;
