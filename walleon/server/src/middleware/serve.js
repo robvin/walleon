@@ -3,9 +3,9 @@ import serve from "koa-static";
 import path from "path";
 
 export const serveViews = () => {
-  return views(path.join(__dirname, "/../../../client/dist"), {});
+  return views(path.join(__dirname, "/../public"), {});
 };
 
 export const serveStatic = () => {
-  return serve(path.join(__dirname, "/../../../client/dist"), {});
+  return serve(path.join(__dirname, "/../public"), {});
 };
