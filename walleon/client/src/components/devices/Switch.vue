@@ -1,7 +1,7 @@
 <template>
   <button class="device" :class="classes" @click="toggle()" :disabled="loading">
-    <div class="device__icon" :class="{ 'bg-yellow': active }">
-      <img svg-inline src="@/assets/images/light.svg" />
+    <div class="device__icon" :class="{ 'bg-green': active }">
+      <img svg-inline src="@/assets/images/plug.svg" />
     </div>
     <div class="device__info">
       <span class="device__room">{{ device.domain }}</span>

@@ -7,6 +7,7 @@ import Vue from "vue";
 import { Device as DeviceType } from "@/types";
 import DefaultDevice from "@/components/devices/Default.vue";
 import LightDevice from "@/components/devices/Light.vue";
+import SwitchDevice from "@/components/devices/Switch.vue";
 
 export default Vue.extend({
   name: "Device",
@@ -22,7 +23,8 @@ export default Vue.extend({
     deviceComponent() {
       const deviceTypes = new Map([
         ["default", DefaultDevice],
-        ["light", LightDevice]
+        ["light", LightDevice],
+        ["switch", SwitchDevice]
       ]);
 
       return deviceTypes.get(deviceTypes.has(this.device.domain) ? this.device.domain : "default");
