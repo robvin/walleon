@@ -1,6 +1,6 @@
 <template>
   <button class="device" :class="classes" @click="toggle()" :disabled="loading">
-    <div class="device__icon">
+    <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
     <div class="device__info">
