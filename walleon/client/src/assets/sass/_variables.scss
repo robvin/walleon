@@ -37,7 +37,7 @@ $danger: $red;
 $light: $light-primary;
 $dark: $dark-primary;
 
-// Add light and dark colors to theme colors
+// Add colors to theme colors
 $theme-colors: (
     "light-primary": $light-primary,
     "light-secondary": $light-secondary,
@@ -48,7 +48,16 @@ $theme-colors: (
     "dark-secondary": $dark-secondary,
     "dark-hint": $dark-hint,
     "dark-separator": $dark-separator,
-    "dark-shade": $dark-shade
+    "dark-shade": $dark-shade,
+    "blue": $blue,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "red": $red,
+    "orange": $orange,
+    "yellow": $yellow,
+    "green": $green,
+    "teal": $teal
 );
 
 //
