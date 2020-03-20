@@ -18,11 +18,13 @@ cd walleon
 npm install --prefix client && npm install --prefix server
 ```
 
-### Compiles and hot-reloads for development
+### Compiles for development and watches client files for changes
 ```
-npm run serve --prefix client
+npm run watch --prefix client
 npm run build --prefix server && npm start --prefix server
 ```
+
+Vue CLI can serve and hot-reload with `npm run serve --prefix client` but won't work with our backend. Use `npm run watch --prefix client` and manually refresh page in browser.
 
 ### Compiles and minifies for production
 ```
