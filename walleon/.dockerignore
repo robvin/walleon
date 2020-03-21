@@ -1,3 +1,5 @@
 npm-debug.log
 config.json
 build.json
+build
+node_modules
