@@ -5,8 +5,8 @@ Control panel for Home Assistant (HomeKit)
 [View live demo](https://lejtzen.github.io/walleon/)
 
 ## Requirements
-* Docker
-* Nodejs
+* Docker 18.06.0+
+* Nodejs 12+
 
 ## Project setup
 ```
@@ -15,20 +15,19 @@ cd walleon
 
 ### Install dependencies
 ```
-npm install --prefix client && npm install --prefix server
+npm install
 ```
 
 ### Compiles for development and watches client files for changes
 ```
-npm run watch --prefix client
-npm run build --prefix server && npm start --prefix server
+npm run watch
 ```
 
-Vue CLI can serve and hot-reload with `npm run serve --prefix client` but won't work with our backend. Use `npm run watch --prefix client` and manually refresh page in browser.
+Vue CLI can serve and hot-reload with `npm run serve` but won't work with our backend. Use `npm run watch` and manually refresh page in browser.
 
 ### Compiles and minifies for production
 ```
-npm run build --prefix client && npm run build --prefix server
+npm run build
 ```
 
 ### Run Docker container
@@ -42,11 +41,11 @@ docker run -d -p 8080:8080 walleon
 ## More
 ### Client lints and fixes files
 ```
-npm run lint --prefix client
+npm run lint
 ```
 
 ### Publish
-Publish contents of `/client/dist` folder in the public folder of your web server.
+Publish contents of `/walleon/build` folder in the public folder of your web server.
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
