@@ -3,4 +3,4 @@
 # Starts the server
 # ==============================================================================
 
-exec node /opt/walleon/bin/www.js
+exec node /opt/walleon/build/bin/www.js
