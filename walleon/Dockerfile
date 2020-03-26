@@ -42,9 +42,11 @@ RUN set -o pipefail \
     # Install app dependencies and compile
     && npm install --prefix /tmp \
     && npm run build --prefix /tmp \
-    && mv /tmp/build/public /opt/walleon \
-    #c 
+    && mkdir -p /opt/walleon/public \
+    && mv -f /tmp/build/public/* /opt/walleon/public/ \
+    #
     && apk del --purge .build-dependencies \
+    && rm -fr /etc/nginx/* \
     && rm -fr /tmp/* 
 
 # Copy root filesystem
