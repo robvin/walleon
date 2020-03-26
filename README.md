@@ -33,7 +33,7 @@ npm run build
 ### Run Docker container
 ```
 docker build -t walleon .
-docker run -d -p 8080:8080 walleon
+docker run -d -p 8080:80 walleon
 ```
 
 #### Now visit `localhost:8080`

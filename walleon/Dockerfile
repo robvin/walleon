@@ -4,14 +4,8 @@ FROM ${BUILD_FROM}
 
 ENV LANG C.UTF-8
 
-# Copy root filesystem
-COPY rootfs /
-
-# Copy configs
-COPY ["package*.json", ".eslintrc.js", "babel.config.js", "babel.server-config.js", "tsconfig.json", "vue.config.js", "/opt/walleon/"]
-
-# Copy app source
-COPY src /opt/walleon/src
+# Copy app files
+COPY ["src", "public", ".browserslistrc", ".editorconfig", ".eslintrc.js", "package*.json", "babel.config.js", "tsconfig.json", "vue.config.js", "/tmp/"]
 
 # Build arch argument
 ARG BUILD_ARCH=amd64
@@ -26,14 +20,15 @@ RUN set -o pipefail \
     && apk update \
     #
     && apk add --no-cache --virtual .build-dependencies \
-    curl=7.67.0-r0 \
-    git=2.24.1-r0 \
-    tar=1.32-r1 \
-    npm=12.15.0-r1 \
+        curl=7.67.0-r0 \
+        git=2.24.1-r0 \
+        tar=1.32-r1 \
+        npm=12.15.0-r1 \
     #
     && apk add --no-cache \
-    bash=5.0.11-r1 \
-    nodejs=12.15.0-r1 \
+        nginx=1.16.1-r6 \
+        bash=5.0.11-r1 \
+        nodejs=12.15.0-r1 \
     #
     && S6_ARCH="${BUILD_ARCH}" \
     && if [ "${BUILD_ARCH}" = "arm32v6" ]; then S6_ARCH="armhf"; fi \
@@ -44,15 +39,16 @@ RUN set -o pipefail \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-${S6_ARCH}.tar.gz" \
     | tar zxvf - -C / \
     #
-    && npm install --prefix /opt/walleon/ \
-    #
-    && npm run build --prefix /opt/walleon/ \
-    #
+    # Install app dependencies and compile
+    && npm install --prefix /tmp \
+    && npm run build --prefix /tmp \
+    && mv /tmp/build/public /opt/walleon \
+    #c 
     && apk del --purge .build-dependencies \
     && rm -fr /tmp/*
 
-# Expose port
-EXPOSE 8080
+# Copy root filesystem
+COPY rootfs /
 
 # S6 Entrypoint
 ENTRYPOINT ["/init"]
