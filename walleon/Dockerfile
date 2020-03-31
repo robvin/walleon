@@ -5,7 +5,7 @@ FROM ${BUILD_FROM}
 ENV LANG C.UTF-8
 
 # Copy app files
-COPY ["src", "public", ".browserslistrc", ".editorconfig", ".eslintrc.js", "package*.json", "babel.config.js", "tsconfig.json", "vue.config.js", "/tmp/"]
+COPY . /tmp
 
 # Build arch argument
 ARG BUILD_ARCH=amd64
@@ -42,10 +42,12 @@ RUN set -o pipefail \
     # Install app dependencies and compile
     && npm install --prefix /tmp \
     && npm run build --prefix /tmp \
-    && mv /tmp/build/public /opt/walleon \
-    #c 
+    && mkdir -p /opt/walleon/public \
+    && mv -f /tmp/build/public/* /opt/walleon/public/ \
+    #
     && apk del --purge .build-dependencies \
-    && rm -fr /tmp/*
+    && rm -fr /etc/nginx/* \
+    && rm -fr /tmp/* 
 
 # Copy root filesystem
 COPY rootfs /

@@ -7,7 +7,7 @@
     "serve": "vue-cli-service serve",
     "watch": "vue-cli-service build --watch",
     "build": "npm-run-all -ls clean --parallel build:*",
-    "build:client": "vue-cli-service build --dest build/public",
+    "build:client": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "clean": "rimraf build"
   },
@@ -25,7 +25,7 @@
     "@vue/cli-plugin-eslint": "~4.2.0",
     "@vue/cli-plugin-pwa": "~4.2.0",
     "@vue/cli-plugin-router": "~4.2.0",
-    "@vue/cli-plugin-typescript": "~4.2.0",
+    "@vue/cli-plugin-typescript": "^4.2.3",
     "@vue/cli-service": "~4.2.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.1",
@@ -37,7 +37,6 @@
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
-    "ts-loader": "^6.2.2",
     "typescript": "~3.7.5",
     "vue-svg-inline-loader": "^1.4.6",
     "vue-template-compiler": "^2.6.11"
