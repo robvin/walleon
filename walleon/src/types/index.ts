@@ -27,5 +27,5 @@ export type Device = {
   // Time the state changed in the state machine in UTC time
   lastChanged: string;
   // Additional attributes (depending on device)
-  attributes: DeviceAttributes;
+  attributes?: DeviceAttributes;
 };
