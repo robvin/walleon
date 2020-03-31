@@ -3,6 +3,9 @@
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
+    <div class="device__percentage">
+      <Progress :value="device.state === 'on' ? 0.75 : 0" :min="0" :max="1" />
+    </div>
     <div class="device__info">
       <span class="device__room">{{ device.domain }}</span>
       <span class="device__name">{{ device.name }}</span>
@@ -14,9 +17,14 @@
 <script lang="ts">
 import Vue from "vue";
 import { Device as DeviceType } from "@/types";
+import Progress from "@/components/Progress.vue";
 
 export default Vue.extend({
   name: "LightDevice",
+
+  components: {
+    Progress
+  },
 
   props: {
     device: {

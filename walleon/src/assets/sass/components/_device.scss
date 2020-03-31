@@ -45,6 +45,18 @@
         #{$self}__state {
             color: $dark-secondary;
         }
+
+        .progress__value {
+            color: $green;
+        }
+
+        .progress__track {
+            stroke: transparentize($green, 0.88);
+        }
+
+        .progress__fill {
+            stroke: $green;
+        }
     }
 
     &__icon {
@@ -64,6 +76,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+    }
+
+    &__percentage {
+        position: absolute;
+        top: $spacer;
+        right: $spacer;
     }
 
     &__info {

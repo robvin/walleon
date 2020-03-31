@@ -1,0 +1,63 @@
+//
+// Circular progress
+//
+
+.progress {
+    $self: &;
+    position: relative;
+
+    svg {
+        display: block;
+        transform: rotate(-90deg);
+    }
+
+    &__value {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        @extend .smallest-title;
+        color: $light-primary;
+        line-height: 1;
+        transition: color ease-out 200ms 250ms;
+    }
+
+    &__track {
+        stroke: $light-separator;
+        fill: transparent;
+        transition: stroke, fill ease-out 200ms;
+    }
+
+    &__fill {
+        stroke: $light-primary;
+        fill: transparent;
+        stroke-linecap: round;
+        transition: stroke, stroke-dashoffset 400ms ease-out;
+    }
+
+    &--empty {
+        #{$self}__value {
+            color: $light-separator;
+        }
+    }
+
+    &--full {
+        #{$self}__value {
+            color: $light-primary;
+        }
+
+        #{$self}__track {
+            fill: $success;
+            transition:
+                stroke ease-out 200ms,
+                fill ease-out 200ms 250ms;
+        }
+
+        #{$self}__fill {
+            stroke: $success;
+        }
+    }
+}
