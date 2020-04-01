@@ -79,6 +79,7 @@
     }
 
     &__percentage {
+        z-index: 0;
         position: absolute;
         top: $spacer;
         right: $spacer;
