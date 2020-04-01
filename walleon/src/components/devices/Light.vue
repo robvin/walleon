@@ -1,5 +1,12 @@
 <template>
-  <button class="device" :class="classes" @click="toggle()" :disabled="loading">
+  <card
+    :active="active"
+    :loading="loading"
+    :disabled="loading"
+    @clicked="onClicked"
+    @released="onReleased"
+    @moved="onMoved"
+  >
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
@@ -11,18 +18,24 @@
       <span class="device__name">{{ device.name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
-  </button>
+
+    <template v-slot:modal>
+      {{ device }}
+    </template>
+  </card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { Device as DeviceType } from "@/types";
+import Card from "@/components/Card.vue";
 import Progress from "@/components/Progress.vue";
 
 export default Vue.extend({
   name: "LightDevice",
 
   components: {
+    Card,
     Progress
   },
 
@@ -35,31 +48,33 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: false
+      loading: false as boolean
     };
   },
 
   computed: {
     active(): boolean {
       return this.device.state === "on";
-    },
-
-    classes(): object {
-      return {
-        "device--loading": this.loading,
-        "device--active": this.active
-      };
     }
   },
 
   methods: {
-    toggle() {
+    onClicked(event: MouseEvent) {
+      console.log("Clicked", event);
       this.loading = true;
 
       setTimeout(() => {
         this.loading = false;
         this.device.state = this.active ? "off" : "on";
       }, Math.random() * 3000);
+    },
+
+    onReleased(event: MouseEvent) {
+      console.log("Released", event);
+    },
+
+    onMoved(event: MouseEvent) {
+      console.log("Moved", event);
     }
   }
 });

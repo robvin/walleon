@@ -10,12 +10,16 @@
     background: $light-separator;
     border-radius: 1rem;
     text-align: left;
-    transition: all ease-out 200ms;
+    transition: all ease-out 500ms;
 
     &::after {
        content: "";
         display: block;
         padding-bottom: 100%;
+    }
+
+    &:active{
+        transform: scale(1.05);
     }
 
     &--loading {
