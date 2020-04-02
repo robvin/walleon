@@ -96,10 +96,17 @@ export default Vue.extend({
       const y = Math.min(yMax, Math.max(margin, yTarget));
       const x = Math.min(xMax, Math.max(margin, xTarget));
 
-      target.style.top = y + "px";
-      target.style.left = x + "px";
-      target.style.height = height + "px";
-      target.style.width = width + "px";
+      if (window.innerWidth < 576) {
+        target.style.top = "0px";
+        target.style.left = "0px";
+        target.style.height = "100vh";
+        target.style.width = "100vw";
+      } else {
+        target.style.top = y + "px";
+        target.style.left = x + "px";
+        target.style.height = height + "px";
+        target.style.width = width + "px";
+      }
     },
 
     beforeEnter(): void {

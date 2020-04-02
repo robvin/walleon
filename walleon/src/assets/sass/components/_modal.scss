@@ -26,7 +26,6 @@
     position: absolute;
     overflow-x: hidden;
     overflow-y: auto;
-    border: 1px solid $light-separator;
     box-shadow: 0 1.5rem 2rem $dark-hint;
     transform: translate3d(0, 0, 0);
     transition: all cubic-bezier(0.22, 1, 0.36, 1) 400ms;
@@ -34,10 +33,18 @@
     background: #1d1d1d; // TODO: Decide regarding shades with opacity or fixed colors
     border-radius: 1rem;
 
+    @include media-breakpoint-up(sm) {
+        border: 1px solid $light-separator;
+    }
+
     &__inner{
         position: relative;
-        width: 400px; // TODO: Where should we handle size?
+        width: 100vw; // TODO: Where should we handle size?
         padding: $spacer * 3 $spacer * 2 $spacer * 1 $spacer * 2;
+
+        @include media-breakpoint-up(sm) {
+            width: 400px; // TODO: Where should we handle size?
+        }
     }
 
     &__close{
