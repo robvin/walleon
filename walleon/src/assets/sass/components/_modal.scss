@@ -28,23 +28,19 @@
     overflow-y: auto;
     box-shadow: 0 1.5rem 2rem $dark-hint;
     transform: translate3d(0, 0, 0);
-    transition: all cubic-bezier(0.22, 1, 0.36, 1) 400ms;
+    transition: all cubic-bezier(0.16, 1, 0.3, 1) 400ms;
     will-change: height, width, box-shadow, top, left, right, bottom;
     background: #1d1d1d; // TODO: Decide regarding shades with opacity or fixed colors
     border-radius: 1rem;
+    border: 1px solid transparent;
 
     @include media-breakpoint-up(sm) {
-        border: 1px solid $light-separator;
+        border-color: $light-separator;
     }
 
     &__inner{
         position: relative;
-        width: 100vw; // TODO: Where should we handle size?
         padding: $spacer * 3 $spacer * 2 $spacer * 1 $spacer * 2;
-
-        @include media-breakpoint-up(sm) {
-            width: 400px; // TODO: Where should we handle size?
-        }
     }
 
     &__close{
@@ -59,11 +55,11 @@
 //
 
 .peek-enter-active{
-    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .peek-leave-active{
-    transition-timing-function: ease-in;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .peek-enter-active,
@@ -88,6 +84,7 @@
 
     .modal{
         box-shadow: 0 0 0 rgba(0,0,0,0);
+        border-color: transparent;
     }
 
     .modal__inner{
