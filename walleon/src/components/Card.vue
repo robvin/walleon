@@ -16,6 +16,7 @@
       @enter="enter"
       @after-enter="afterEnter"
       @before-leave="beforeLeave"
+      @after-leave="afterLeave"
     >
       <div v-if="isExpanded" class="modal-wrapper">
         <div class="modal-cover" @click.self="isExpanded = false"></div>
@@ -50,13 +51,23 @@ export default Vue.extend({
     disabled: {
       type: Boolean,
       default: false
+    },
+    width: {
+      type: Number,
+      default: 420
+    },
+    height: {
+      type: Number,
+      default: 600
     }
   },
 
   data() {
     return {
       timeoutId: undefined as undefined | number,
-      isExpanded: false as boolean
+      isExpanded: false as boolean,
+      boundWidth: 0 as number,
+      boundHeight: 0 as number
     };
   },
 
@@ -70,6 +81,20 @@ export default Vue.extend({
   },
 
   methods: {
+    handleResize(): void {
+      // TODO: Throttle these calls
+      this.setBound();
+
+      if (this.isExpanded) {
+        this.setTargetStyle();
+      }
+    },
+
+    setBound(): void {
+      this.boundWidth = window.innerWidth;
+      this.boundHeight = window.innerHeight;
+    },
+
     setInitialStyle(): void {
       const target = this.$refs.modal as HTMLElement;
       const rect = (this.$refs.button as HTMLElement).getBoundingClientRect();
@@ -81,22 +106,19 @@ export default Vue.extend({
     },
 
     setTargetStyle(): void {
-      // TODO: Where should we handle size?
       const target = this.$refs.modal as HTMLElement;
       const rect = (this.$refs.button as HTMLElement).getBoundingClientRect();
       const margin = 30;
-      const height = 600;
-      const width = 400;
-      const offsetY = (rect.height - height) / 2;
-      const offsetX = (rect.width - width) / 2;
-      const yMax = window.innerHeight - height - margin;
-      const xMax = window.innerWidth - width - margin;
+      const offsetY = (rect.height - this.height) / 2;
+      const offsetX = (rect.width - this.width) / 2;
+      const yMax = this.boundHeight - this.height - margin;
+      const xMax = this.boundWidth - this.width - margin;
       const yTarget = rect.y + offsetY;
       const xTarget = rect.x + offsetX;
       const y = Math.min(yMax, Math.max(margin, yTarget));
       const x = Math.min(xMax, Math.max(margin, xTarget));
 
-      if (window.innerWidth < 576) {
+      if (this.boundWidth < this.width + margin) {
         target.style.top = "0px";
         target.style.left = "0px";
         target.style.height = "100vh";
@@ -104,12 +126,14 @@ export default Vue.extend({
       } else {
         target.style.top = y + "px";
         target.style.left = x + "px";
-        target.style.height = height + "px";
-        target.style.width = width + "px";
+        target.style.height = this.height + "px";
+        target.style.width = this.width + "px";
       }
     },
 
     beforeEnter(): void {
+      window.addEventListener("resize", this.handleResize, false);
+      this.setBound();
       this.setInitialStyle();
     },
 
@@ -123,6 +147,10 @@ export default Vue.extend({
 
     beforeLeave(): void {
       this.setInitialStyle();
+    },
+
+    afterLeave(): void {
+      window.removeEventListener("resize", this.handleResize, false);
     },
 
     handleMouseDown(event: MouseEvent) {
