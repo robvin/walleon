@@ -2,7 +2,7 @@
 Control panel for Home Assistant (HomeKit)
 
 ## Live demo
-[View live demo](https://lejtzen.github.io/walleon/)
+[View live demo](https://robvin.github.io/addon-walleon/)
 
 ## Requirements
 * Docker 18.06.0+
