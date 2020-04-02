@@ -23,36 +23,21 @@
 }
 
 .modal{
-    $width: 400px;
-    $height: 600px;
-
     position: absolute;
     overflow-x: hidden;
     overflow-y: auto;
-    width: 100vw;
-    height: 100%;
     border: 1px solid $light-separator;
     box-shadow: 0 1.5rem 2rem $dark-hint;
-    transform-origin: center;
-    transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(0, 0, 0);
     transition: all cubic-bezier(0.22, 1, 0.36, 1) 400ms;
-    will-change: height, width, box-shadow;
+    will-change: height, width, box-shadow, top, left, right, bottom;
     background: #1d1d1d; // TODO: Decide regarding shades with opacity or fixed colors
     border-radius: 1rem;
 
-    @include media-breakpoint-up(sm) {
-        width: $width;
-        height: $height;
-    }
-
     &__inner{
         position: relative;
-        width: 100vw;
+        width: 400px; // TODO: Where should we handle size?
         padding: $spacer * 3 $spacer * 2 $spacer * 1 $spacer * 2;
-
-        @include media-breakpoint-up(sm) {
-            width: $width;
-        }
     }
 
     &__close{

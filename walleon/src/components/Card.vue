@@ -70,33 +70,44 @@ export default Vue.extend({
   },
 
   methods: {
-    setInitialPosition(): void {
+    setInitialStyle(): void {
       const target = this.$refs.modal as HTMLElement;
       const rect = (this.$refs.button as HTMLElement).getBoundingClientRect();
-      const x = rect.x + rect.width / 2;
-      const y = rect.y + rect.height / 2;
 
-      target.style.left = x + "px";
-      target.style.top = y + "px";
+      target.style.top = rect.y + "px";
+      target.style.left = rect.x + "px";
+      target.style.height = rect.width + "px";
+      target.style.width = rect.height + "px";
     },
 
-    setInitialSize(): void {
+    setTargetStyle(): void {
+      // TODO: Where should we handle size?
       const target = this.$refs.modal as HTMLElement;
       const rect = (this.$refs.button as HTMLElement).getBoundingClientRect();
+      const margin = 30;
+      const height = 600;
+      const width = 400;
+      const offsetY = (rect.height - height) / 2;
+      const offsetX = (rect.width - width) / 2;
+      const yMax = window.innerHeight - height - margin;
+      const xMax = window.innerWidth - width - margin;
+      const yTarget = rect.y + offsetY;
+      const xTarget = rect.x + offsetX;
+      const y = Math.min(yMax, Math.max(margin, yTarget));
+      const x = Math.min(xMax, Math.max(margin, xTarget));
 
-      target.style.width = rect.width + "px";
-      target.style.height = rect.height + "px";
+      target.style.top = y + "px";
+      target.style.left = x + "px";
+      target.style.height = height + "px";
+      target.style.width = width + "px";
     },
 
     beforeEnter(): void {
-      this.setInitialSize();
+      this.setInitialStyle();
     },
 
     enter(): void {
-      // Not sure why this works. Does not transition otherwise.
-      this.setInitialPosition();
-      (this.$refs.modal as HTMLElement).removeAttribute("style");
-      this.setInitialPosition();
+      this.setTargetStyle();
     },
 
     afterEnter(): void {
@@ -104,7 +115,7 @@ export default Vue.extend({
     },
 
     beforeLeave(): void {
-      this.setInitialSize();
+      this.setInitialStyle();
     },
 
     handleMouseDown(event: MouseEvent) {
