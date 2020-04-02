@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <Panel class="panel--1" :title="'21:31'">
+    <Panel class="panel--1" :title="'21:22'">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
