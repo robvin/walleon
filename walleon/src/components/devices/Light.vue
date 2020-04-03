@@ -1,5 +1,11 @@
 <template>
-  <card :active="active" :loading="loading" :disabled="loading" @clicked="onClicked">
+  <card
+    :active="active"
+    :loading="loading"
+    :disabled="loading"
+    @clicked="onClicked"
+    @moved="onMoved"
+  >
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
@@ -13,7 +19,10 @@
     </div>
 
     <template v-slot:modal>
-      {{ device }}
+      <h1 class="large-title">{{ Math.floor(percentage * 100) }}%</h1>
+      <pre>
+        {{ device }}
+      </pre>
     </template>
   </card>
 </template>
@@ -41,7 +50,8 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: false as boolean
+      loading: false as boolean,
+      percentage: 0 as number
     };
   },
 
@@ -59,6 +69,18 @@ export default Vue.extend({
         this.loading = false;
         this.device.state = this.active ? "off" : "on";
       }, Math.random() * 3000);
+    },
+
+    onMoved(event: TouchEvent | PointerEvent, x: number, y: number) {
+      const percentage = this.percentage + -y / 150;
+
+      if (percentage > 1) {
+        this.percentage = 1;
+      } else if (percentage < 0) {
+        this.percentage = 0;
+      } else {
+        this.percentage = percentage;
+      }
     }
   }
 });
