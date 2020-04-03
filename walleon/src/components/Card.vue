@@ -6,6 +6,7 @@
       :class="classes"
       :disabled="disabled"
       @mousedown="handleMouseDown"
+      @touchstart="handleTouchStart"
     >
       <slot />
     </button>
@@ -67,7 +68,9 @@ export default Vue.extend({
       timeoutId: undefined as undefined | number,
       isExpanded: false as boolean,
       boundWidth: 0 as number,
-      boundHeight: 0 as number
+      boundHeight: 0 as number,
+      movementX: null as number | null,
+      movementY: null as number | null
     };
   },
 
@@ -122,9 +125,9 @@ export default Vue.extend({
       if (this.boundWidth < this.width + margin) {
         target.style.top = "0px";
         target.style.left = "0px";
-        target.style.height = "100vh";
-        target.style.width = "100vw";
-        content.style.width = "100vw";
+        target.style.height = this.boundHeight + "px";
+        target.style.width = this.boundWidth + "px";
+        content.style.width = this.boundWidth + "px";
       } else {
         target.style.top = y + "px";
         target.style.left = x + "px";
@@ -169,6 +172,22 @@ export default Vue.extend({
       }, longpressDuration);
     },
 
+    handleTouchStart() {
+      const longpressDuration = 500;
+
+      document.body.addEventListener("touchend", this.handleTouchEnd, false);
+      document.body.addEventListener("touchcancel", this.handleTouchEnd, false);
+      document.body.addEventListener("touchmove", this.handleTouchMoveInside, false);
+
+      this.timeoutId = setTimeout(() => {
+        this.isExpanded = true;
+        document.body.addEventListener("touchend", this.handleTouchEnd, false);
+        document.body.addEventListener("touchcancel", this.handleTouchEnd, false);
+        document.body.removeEventListener("touchmove", this.handleTouchMoveInside, false);
+        document.body.addEventListener("touchmove", this.handleTouchMove, false);
+      }, longpressDuration);
+    },
+
     handleMouseUp(event: MouseEvent) {
       if (event.which !== 1) return;
 
@@ -183,8 +202,51 @@ export default Vue.extend({
       document.body.removeEventListener("mousemove", this.handleMouseMove, false);
     },
 
+    handleTouchEnd(event: TouchEvent) {
+      if (this.isExpanded) {
+        this.$emit("released", event);
+      } else {
+        this.$emit("clicked", event);
+      }
+
+      clearTimeout(this.timeoutId);
+      document.body.removeEventListener("touchend", this.handleTouchEnd, false);
+      document.body.removeEventListener("touchmove", this.handleTouchMove, false);
+    },
+
     handleMouseMove(event: MouseEvent) {
-      this.$emit("moved", event);
+      this.$emit("moved", event, event.movementX, event.movementY);
+    },
+
+    handleTouchMove(event: TouchEvent) {
+      let movementX = 0;
+      let movementY = 0;
+
+      const newX = event.changedTouches[0].clientX;
+      const newY = event.changedTouches[0].clientY;
+
+      if (this.movementX !== null && this.movementY !== null) {
+        movementX = newX - this.movementX;
+        movementY = newY - this.movementY;
+      }
+
+      this.movementX = newX;
+      this.movementY = newY;
+
+      this.$emit("moved", event, movementX, movementY);
+    },
+
+    handleTouchMoveInside(event: TouchEvent) {
+      const original = event.target as Node;
+      const current = document.elementFromPoint(event.touches[0].pageX, event.touches[0].pageY);
+
+      if (!original.isSameNode(current) || !original.contains(current)) {
+        clearTimeout(this.timeoutId);
+        document.body.removeEventListener("touchmove", this.handleTouchMoveInside, false);
+        document.body.removeEventListener("touchend", this.handleTouchEnd, false);
+        document.body.removeEventListener("touchcancel", this.handleTouchEnd, false);
+        document.body.removeEventListener("touchmove", this.handleTouchMove, false);
+      }
     }
   }
 });
