@@ -21,13 +21,14 @@ export default Vue.extend({
 
   computed: {
     deviceComponent() {
-      const deviceTypes = new Map([
-        ["default", DefaultDevice],
-        ["light", LightDevice],
-        ["switch", SwitchDevice]
-      ]);
-
-      return deviceTypes.get(deviceTypes.has(this.device.domain) ? this.device.domain : "default");
+      switch (this.device.domain) {
+        case "light":
+          return LightDevice;
+        case "switch":
+          return SwitchDevice;
+        default:
+          return DefaultDevice;
+      }
     }
   }
 });
