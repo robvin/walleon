@@ -1,12 +1,5 @@
 <template>
-  <card
-    :active="active"
-    :loading="loading"
-    :disabled="loading"
-    @clicked="onClicked"
-    @released="onReleased"
-    @moved="onMoved"
-  >
+  <card :active="active" :loading="loading" :disabled="loading" @clicked="onClicked">
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
@@ -59,22 +52,13 @@ export default Vue.extend({
   },
 
   methods: {
-    onClicked(event: MouseEvent) {
-      console.log("Clicked", event);
+    onClicked() {
       this.loading = true;
 
       setTimeout(() => {
         this.loading = false;
         this.device.state = this.active ? "off" : "on";
       }, Math.random() * 3000);
-    },
-
-    onReleased(event: MouseEvent) {
-      console.log("Released", event);
-    },
-
-    onMoved(event: MouseEvent) {
-      console.log("Moved", event);
     }
   }
 });
