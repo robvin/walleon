@@ -21,7 +21,7 @@
       <div v-if="isExpanded" class="modal-wrapper">
         <div class="modal-cover" @click.self="isExpanded = false"></div>
         <div ref="modal" class="modal">
-          <div class="modal__inner">
+          <div ref="content" class="modal__inner">
             <button class="modal__close" @click="isExpanded = false">
               <img svg-inline src="@/assets/images/close-circle.svg" />
             </button>
@@ -107,6 +107,7 @@ export default Vue.extend({
 
     setTargetStyle(): void {
       const target = this.$refs.modal as HTMLElement;
+      const content = this.$refs.content as HTMLElement;
       const rect = (this.$refs.button as HTMLElement).getBoundingClientRect();
       const margin = 30;
       const offsetY = (rect.height - this.height) / 2;
@@ -123,11 +124,13 @@ export default Vue.extend({
         target.style.left = "0px";
         target.style.height = "100vh";
         target.style.width = "100vw";
+        content.style.width = "100vw";
       } else {
         target.style.top = y + "px";
         target.style.left = x + "px";
         target.style.height = this.height + "px";
         target.style.width = this.width + "px";
+        content.style.width = this.width + "px";
       }
     },
 
