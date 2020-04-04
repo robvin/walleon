@@ -5,7 +5,7 @@
       class="device"
       :class="classes"
       :disabled="disabled"
-      @mousedown="handleMouseDown"
+      @mouseup="handleMouseUp"
       @touchstart="handleTouchStart"
     >
       <slot />
@@ -159,19 +159,6 @@ export default Vue.extend({
       window.removeEventListener("resize", this.handleResize, false);
     },
 
-    handleMouseDown(event: MouseEvent) {
-      const longpressDuration = 500;
-
-      if (event.which !== 1) return;
-
-      document.body.addEventListener("mouseup", this.handleMouseUp, false);
-
-      this.timeoutId = setTimeout(() => {
-        this.isExpanded = true;
-        document.body.addEventListener("mousemove", this.handleMouseMove, false);
-      }, longpressDuration);
-    },
-
     handleTouchStart() {
       const longpressDuration = 500;
 
@@ -189,17 +176,21 @@ export default Vue.extend({
     },
 
     handleMouseUp(event: MouseEvent) {
+      const doubleClickDuration = 200;
+
       if (event.which !== 1) return;
 
-      if (this.isExpanded) {
-        this.$emit("released", event);
+      if (this.timeoutId !== undefined) {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = undefined;
+        this.isExpanded = true;
       } else {
-        this.$emit("clicked", event);
+        this.timeoutId = setTimeout(() => {
+          this.$emit("clicked", event);
+          clearTimeout(this.timeoutId);
+          this.timeoutId = undefined;
+        }, doubleClickDuration);
       }
-
-      clearTimeout(this.timeoutId);
-      document.body.removeEventListener("mouseup", this.handleMouseUp, false);
-      document.body.removeEventListener("mousemove", this.handleMouseMove, false);
     },
 
     handleTouchEnd(event: TouchEvent) {
@@ -212,10 +203,6 @@ export default Vue.extend({
       clearTimeout(this.timeoutId);
       document.body.removeEventListener("touchend", this.handleTouchEnd, false);
       document.body.removeEventListener("touchmove", this.handleTouchMove, false);
-    },
-
-    handleMouseMove(event: MouseEvent) {
-      this.$emit("moved", event, event.movementX, event.movementY);
     },
 
     handleTouchMove(event: TouchEvent) {
