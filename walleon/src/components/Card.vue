@@ -162,6 +162,8 @@ export default Vue.extend({
     handleTouchStart() {
       const longpressDuration = 500;
 
+      if (this.disabled) return;
+
       document.body.addEventListener("touchend", this.handleTouchEnd, false);
       document.body.addEventListener("touchcancel", this.handleTouchEnd, false);
       document.body.addEventListener("touchmove", this.handleTouchMoveInside, false);
