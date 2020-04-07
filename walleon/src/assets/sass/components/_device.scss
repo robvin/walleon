@@ -10,7 +10,7 @@
     background: $light-separator;
     border-radius: 1rem;
     text-align: left;
-    transition: all ease-out 500ms;
+    transition: all cubic-bezier(0.34, 1.56, 0.64, 1) 500ms;
 
     &::after {
        content: "";
@@ -18,17 +18,16 @@
         padding-bottom: 100%;
     }
 
-    &:active{
-        transform: scale(1.05);
+    &:not(:disabled):active{
+        transform: scale(0.95);
     }
 
     &--loading {
-        #{$self}__icon {
-            animation-name: pulse;
-            animation-duration: 500ms;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
+        animation-name: pulse;
+        animation-duration: 500ms;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
     }
 
     &--active {
