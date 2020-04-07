@@ -23,7 +23,12 @@
         <div class="modal-cover" @click.self="isExpanded = false"></div>
         <div ref="modal" class="modal">
           <div ref="content" class="modal__inner">
-            <button class="modal__close" @click="isExpanded = false">
+            <button
+              ref="close"
+              class="modal__close"
+              @click="isExpanded = false"
+              @touchend="isExpanded = false"
+            >
               <img svg-inline src="@/assets/images/close-circle.svg" />
             </button>
             <slot name="modal" />
