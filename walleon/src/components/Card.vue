@@ -19,7 +19,7 @@
       @before-leave="beforeLeave"
       @after-leave="afterLeave"
     >
-      <div v-if="isExpanded" class="modal-wrapper">
+      <div v-if="isExpanded" class="modal-wrapper" @keyup.esc="isExpanded = false">
         <div class="modal-cover" @click.self="isExpanded = false"></div>
         <div ref="modal" class="modal">
           <div ref="content" class="modal__inner">
