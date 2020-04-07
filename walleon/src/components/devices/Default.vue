@@ -1,19 +1,24 @@
 <template>
-  <button class="device" :class="classes" @click="toggle()" :disabled="loading">
+  <card :active="active" :loading="loading" :disabled="loading" @clicked="toggle()">
     <div class="device__info">
       <span class="device__room">{{ device.domain }}</span>
       <span class="device__name">{{ device.name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
-  </button>
+  </card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { Device as DeviceType } from "@/types";
+import Card from "@/components/Card.vue";
 
 export default Vue.extend({
   name: "DefaultDevice",
+
+  components: {
+    Card
+  },
 
   props: {
     device: {
@@ -24,20 +29,13 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: false
+      loading: false as boolean
     };
   },
 
   computed: {
     active(): boolean {
       return this.device.state === "on";
-    },
-
-    classes(): object {
-      return {
-        "device--loading": this.loading,
-        "device--active": this.active
-      };
     }
   },
 
