@@ -12,6 +12,7 @@
 }
 
 .modal-cover{
+    z-index: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -23,6 +24,7 @@
 }
 
 .modal{
+    z-index: 1;
     position: absolute;
     overflow-x: hidden;
     overflow-y: auto;
