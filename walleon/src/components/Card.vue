@@ -54,8 +54,8 @@ export default Vue.extend({
     return {
       timeoutId: undefined as undefined | number,
       isExpanded: false as boolean,
-      movementX: null as number | null,
-      movementY: null as number | null
+      lastX: null as number | null,
+      lastY: null as number | null
     };
   },
 
@@ -114,6 +114,8 @@ export default Vue.extend({
 
       clearTimeout(this.timeoutId);
       this.timeoutId = undefined;
+      this.lastX = null;
+      this.lastY = null;
       document.body.removeEventListener("touchend", this.handleTouchEnd, false);
       document.body.removeEventListener("touchmove", this.handleTouchMove, false);
     },
@@ -125,13 +127,13 @@ export default Vue.extend({
       const newX = event.changedTouches[0].clientX;
       const newY = event.changedTouches[0].clientY;
 
-      if (this.movementX !== null && this.movementY !== null) {
-        movementX = newX - this.movementX;
-        movementY = newY - this.movementY;
+      if (this.lastX !== null && this.lastY !== null) {
+        movementX = newX - this.lastX;
+        movementY = newY - this.lastY;
       }
 
-      this.movementX = newX;
-      this.movementY = newY;
+      this.lastX = newX;
+      this.lastY = newY;
 
       this.$emit("moved", event, movementX, movementY);
     },
