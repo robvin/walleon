@@ -80,7 +80,7 @@ export default Vue.extend({
     },
 
     percentage(): number {
-      return 100 * this.decimal;
+      return Math.floor(100 * this.decimal);
     },
 
     classes(): object {
