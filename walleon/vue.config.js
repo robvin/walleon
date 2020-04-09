@@ -9,5 +9,12 @@ module.exports = {
       .options({
         /* ... */
       });
+  },
+  pwa: {
+    name: "Walleon",
+    themeColor: "#000000",
+    msTileColor: "#000000",
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "black-translucent"
   }
 };
