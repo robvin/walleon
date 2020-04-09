@@ -32,7 +32,7 @@ export default {
           friendlyName: "Kitchen Switch",
           icon: "mdi:home",
           entityPicture: "http://example.com/picture.jpg",
-          assumedState: true,
+          assumedState: true
         }
       }
     ];
