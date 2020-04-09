@@ -10,7 +10,7 @@
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
     <div class="device__percentage">
-      <Progress :value="device.state === 'on' ? 0.75 : 0" :min="0" :max="1" />
+      <Progress :value="device.state === 'on' ? percentage : 0" :min="0" :max="1" />
     </div>
     <div class="device__info">
       <span class="device__room">{{ device.domain }}</span>
