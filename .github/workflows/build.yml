@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Installing packages
-        run: npm install --prefix walleon
+        run: npm install
 
       - name: Build project
-        run: npm run build --prefix walleon
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@master
@@ -25,4 +25,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BASE_BRANCH: master
           BRANCH: gh-pages
-          FOLDER: walleon/build/public
+          FOLDER: build/public
