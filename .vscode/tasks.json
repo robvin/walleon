@@ -62,6 +62,19 @@
       "command": "docker",
       "args": ["exec", "-ti", "addon_walleon", "bash"],
       "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Restore Home Assistant Snapshot",
+      "command": "docker",
+      "args": [
+        "exec",
+        "-ti",
+        "hassio-env",
+        "/usr/local/bin/start_hassio.sh",
+        "--restore-snapshot"
+      ],
+      "problemMatcher": []
     }
   ]
 }

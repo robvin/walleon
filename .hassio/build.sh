@@ -103,9 +103,17 @@ function install_addon() {
         /bin/bash -c 'npm install && npm run serve'
 }
 
+function restore_snapshot() {
+    echo "Restore Snapshot..."
+    ha snapshot restore da15ebf2 --folders=homeassistant
+}
+
 case "$1" in
     "--start-addon")
         install_addon
+        exit 0;;
+    "--restore-snapshot")
+        restore_snapshot
         exit 0;;
     "--cleanup")
         echo "Cleaning up old environment"
