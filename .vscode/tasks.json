@@ -60,7 +60,16 @@
       "type": "shell",
       "label": "Attach shell to Addon",
       "command": "docker",
-      "args": ["exec", "-ti", "addon_walleon", "bash"],
+      "args": [
+        "exec",
+        "-ti",
+        "hassio-env",
+        "docker",
+        "exec",
+        "-ti",
+        "addon_walleon",
+        "bash"
+      ],
       "problemMatcher": []
     },
     {
