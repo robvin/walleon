@@ -5,7 +5,6 @@ Control panel for Home Assistant (HomeKit)
 [View live demo](https://robvin.github.io/addon-walleon/)
 
 ## Requirements
-* Docker 18.06.0+
 * Nodejs 12+
 
 ## Project setup
@@ -30,13 +29,23 @@ Vue CLI can serve and hot-reload with `npm run serve` but won't work with our ba
 npm run build
 ```
 
-### Run Docker container
+## Run addon with Hass.io
+#### Prerequisite
+* Docker 18.06.0+
+* VS Code
+
+In VS Code run following tasks:
+
 ```
-docker build -t walleon .
-docker run -d -p 8080:80 walleon
+Run Hass.io enviroment
+```
+Wait for the Supervisor to start, then run:
+```
+Start Addon
 ```
 
-#### Now visit `localhost:8080`
+#### Hassio `localhost:9123`
+#### Walleon `localhost:8080`
 
 ## More
 ### Client lints and fixes files
