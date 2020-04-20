@@ -93,7 +93,19 @@ export default Vue.extend({
       let auth;
       try {
         // Try to pick up authentication after user logs in
-        auth = await getAuth();
+        auth = await getAuth({
+          saveTokens: data => {
+            if (data) {
+              localStorage.setItem("token", JSON.stringify(data));
+            }
+          },
+          loadTokens: () => {
+            return Promise.resolve().then(() => {
+              const data = localStorage.getItem("token");
+              return data ? JSON.parse(data) : null;
+            });
+          }
+        });
       } catch (err) {
         if (err === ERR_HASS_HOST_REQUIRED) {
           auth = await getAuth({ hassUrl: "http://localhost:9123" });
@@ -102,6 +114,11 @@ export default Vue.extend({
           return;
         }
       }
+      // Clear url if we have been able to establish a connection
+      if (location.search.includes("auth_callback=1")) {
+        history.replaceState(null, "", location.pathname);
+      }
+
       const connection = await createConnection({ auth });
 
       getUser(connection).then(user => {
