@@ -8,10 +8,11 @@
   "boot": "auto",
   "hassio_api": true,
   "hassio_role": "default",
+  "homeassistant_api": true,
   "options": {},
   "schema": {},
   "ports": {
-    "8080/tcp": 8080
+    "8080/tcp": 8081
   },
   "webui": "[PROTO:option_name]://[HOST]:[PORT:8080]/"
 }

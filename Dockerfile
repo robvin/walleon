@@ -47,7 +47,7 @@ RUN set -o pipefail \
     #
     && apk del --purge .build-dependencies \
     && rm -fr /etc/nginx/* \
-    && rm -fr /tmp/* 
+    && rm -fr /tmp/*
 
 # Copy root filesystem
 COPY rootfs /
@@ -73,5 +73,5 @@ LABEL \
     org.label-schema.name="Walleon" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.vcs-ref=${REF} \
-    org.label-schema.vcs-url="https://github.com/lejtzen/addon-walleon" \
+    org.label-schema.vcs-url="https://github.com/robvin/addon-walleon" \
     org.label-schema.vendor="walleon"
