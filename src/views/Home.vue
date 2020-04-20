@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <Panel class="panel--1" :title="'21:31'">
+    <Panel v-if="user.id !== undefined" class="panel--1" :title="'21:31'">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -20,11 +20,16 @@
         </div>
       </div>
     </Panel>
-    <Panel v-for="(panel, index) in panels" :key="panel.id" class="panel--1" :title="index">
+    <Panel
+      v-for="(panel, index) in panels"
+      :key="index"
+      class="panel--1"
+      :title="panel.attributes.friendly_name"
+    >
       <div class="container-fluid">
         <div class="row grid">
-          <div class="col-6" v-for="device in panel" :key="device.entityId">
-            <Device :device="device" />
+          <div class="col-6" v-for="(device, index) in panel.attributes.entity_id" :key="index">
+            <Device :device="entities[device]" :toggleCb="toggle" />
           </div>
         </div>
       </div>
@@ -34,8 +39,17 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ha from "@/util/ha";
-import { Device as DeviceType } from "@/types";
+import {
+  createConnection,
+  callService,
+  getAuth,
+  getUser,
+  subscribeEntities,
+  ERR_HASS_HOST_REQUIRED
+} from "home-assistant-js-websocket";
+// import ha from "@/util/ha";
+import { grabSubstring } from "@/util/helpers";
+import { /*Device as DeviceType,*/ HassEntity, HassEntities, Connection } from "@/types";
 import Panel from "@/components/Panel.vue";
 import Device from "@/components/Device.vue";
 
@@ -48,22 +62,66 @@ export default Vue.extend({
   },
 
   data: () => ({
-    devices: [] as DeviceType[]
+    entities: {} as HassEntities,
+    user: {} as object,
+    connection: {} as Connection
   }),
 
   computed: {
-    panels(): object {
-      return this.devices.reduce((panels: { [key: string]: DeviceType[] }, device: DeviceType) => {
-        (panels[device.domain] = panels[device.domain] || []).push(device);
-        return panels;
-      }, {});
+    // panels(): object {
+    //   return this.devices.reduce((panels: { [key: string]: DeviceType[] }, device: DeviceType) => {
+    //     (panels[device.domain] = panels[device.domain] || []).push(device);
+    //     return panels;
+    //   }, {});
+    // }
+
+    panels(): HassEntity[] {
+      const groups: HassEntity[] = [];
+
+      Object.keys(this.entities).forEach(e => {
+        if (grabSubstring(e) === "group") {
+          groups.push(this.entities[e]);
+        }
+      });
+
+      return groups;
     }
   },
 
   mounted(): void {
-    ha.getDevices().then((devices: DeviceType[]) => {
-      this.devices = devices;
-    });
+    (async () => {
+      let auth;
+      try {
+        // Try to pick up authentication after user logs in
+        auth = await getAuth();
+      } catch (err) {
+        if (err === ERR_HASS_HOST_REQUIRED) {
+          auth = await getAuth({ hassUrl: "http://localhost:9123" });
+        } else {
+          console.log(`Unknown error: ${err}`);
+          return;
+        }
+      }
+      const connection = await createConnection({ auth });
+
+      getUser(connection).then(user => {
+        this.user = user;
+      });
+
+      subscribeEntities(connection, (entities: HassEntities) => {
+        this.entities = entities;
+      });
+
+      this.connection = connection;
+    })();
+  },
+  methods: {
+    toggle(entityId: string) {
+      return callService(this.connection, "homeassistant", "toggle", {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        entity_id: entityId
+      });
+    }
   }
 });
 </script>
