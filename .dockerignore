@@ -4,3 +4,4 @@ build.json
 build
 node_modules
 Dockerfile
+data

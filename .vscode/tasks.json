@@ -1,0 +1,89 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "build-hassio-env",
+      "command": "docker",
+      "args": ["build", "-t", "hassio", "${workspaceRoot}/.hassio/"],
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Run Hass.io enviroment",
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "--privileged",
+        "--name",
+        "hassio-env",
+        "-t",
+        "-i",
+        "-p",
+        "9123:8123",
+        "-p",
+        "8080:8081",
+        "-v",
+        "${workspaceRoot}/.hassio/data:/workspaces/hassio/homeassistant",
+        "-v",
+        "${workspaceRoot}:/workspaces/hassio/addons/local/walleon",
+        "hassio"
+      ],
+      "presentation": { "showReuseMessage": false, "reveal": "always" },
+      "dependsOn": ["build-hassio-env"],
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Start Addon",
+      "command": "docker",
+      "args": [
+        "exec",
+        "-ti",
+        "hassio-env",
+        "/usr/local/bin/start_hassio.sh",
+        "--start-addon"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Attach shell to Hass.io",
+      "command": "docker",
+      "args": ["exec", "-ti", "hassio-env", "bash"],
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Attach shell to Addon",
+      "command": "docker",
+      "args": [
+        "exec",
+        "-ti",
+        "hassio-env",
+        "docker",
+        "exec",
+        "-ti",
+        "addon_walleon",
+        "bash"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Restore Home Assistant Snapshot",
+      "command": "docker",
+      "args": [
+        "exec",
+        "-ti",
+        "hassio-env",
+        "/usr/local/bin/start_hassio.sh",
+        "--restore-snapshot"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
