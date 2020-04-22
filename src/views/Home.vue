@@ -29,7 +29,7 @@
       <div class="container-fluid">
         <div class="row grid">
           <div class="col-6" v-for="(device, index) in panel.attributes.entity_id" :key="index">
-            <Device :device="entities[device]" :toggleCb="toggle" />
+            <Device :device="entities[device]" />
           </div>
         </div>
       </div>
@@ -39,19 +39,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-  createConnection,
-  callService,
-  getAuth,
-  getUser,
-  subscribeEntities,
-  ERR_HASS_HOST_REQUIRED
-} from "home-assistant-js-websocket";
-// import ha from "@/util/ha";
 import { grabSubstring } from "@/util/helpers";
-import { /*Device as DeviceType,*/ HassEntity, HassEntities, Connection } from "@/types";
+import { HassEntity, HassEntities, HassUser } from "@/types";
 import Panel from "@/components/Panel.vue";
 import Device from "@/components/Device.vue";
+import HaService from "@/util/HaService";
 
 export default Vue.extend({
   name: "Home",
@@ -63,18 +55,10 @@ export default Vue.extend({
 
   data: () => ({
     entities: {} as HassEntities,
-    user: {} as object,
-    connection: {} as Connection
+    user: {} as HassUser
   }),
 
   computed: {
-    // panels(): object {
-    //   return this.devices.reduce((panels: { [key: string]: DeviceType[] }, device: DeviceType) => {
-    //     (panels[device.domain] = panels[device.domain] || []).push(device);
-    //     return panels;
-    //   }, {});
-    // }
-
     panels(): HassEntity[] {
       const groups: HassEntity[] = [];
 
@@ -88,57 +72,16 @@ export default Vue.extend({
     }
   },
 
-  mounted(): void {
-    (async () => {
-      let auth;
-      try {
-        // Try to pick up authentication after user logs in
-        auth = await getAuth({
-          saveTokens: data => {
-            if (data) {
-              localStorage.setItem("token", JSON.stringify(data));
-            }
-          },
-          loadTokens: () => {
-            return Promise.resolve().then(() => {
-              const data = localStorage.getItem("token");
-              return data ? JSON.parse(data) : null;
-            });
-          }
-        });
-      } catch (err) {
-        if (err === ERR_HASS_HOST_REQUIRED) {
-          auth = await getAuth({ hassUrl: "http://localhost:9123" });
-        } else {
-          console.log(`Unknown error: ${err}`);
-          return;
-        }
-      }
-      // Clear url if we have been able to establish a connection
-      if (location.search.includes("auth_callback=1")) {
-        history.replaceState(null, "", location.pathname);
-      }
+  async mounted() {
+    await HaService.authenticate();
 
-      const connection = await createConnection({ auth });
+    HaService.getUser().then((user: HassUser) => {
+      this.user = user;
+    });
 
-      getUser(connection).then(user => {
-        this.user = user;
-      });
-
-      subscribeEntities(connection, (entities: HassEntities) => {
-        this.entities = entities;
-      });
-
-      this.connection = connection;
-    })();
-  },
-  methods: {
-    toggle(entityId: string) {
-      return callService(this.connection, "homeassistant", "toggle", {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        entity_id: entityId
-      });
-    }
+    HaService.getEntities((entities: HassEntities) => {
+      this.entities = entities;
+    });
   }
 });
 </script>

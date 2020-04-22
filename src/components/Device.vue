@@ -1,5 +1,5 @@
 <template>
-  <component :is="deviceComponent" :device="device" :toggleCb="toggleCb"></component>
+  <component :is="deviceComponent" :device="device"></component>
 </template>
 
 <script lang="ts">
@@ -17,9 +17,6 @@ export default Vue.extend({
     device: {
       type: Object as () => HassEntity,
       required: true
-    },
-    toggleCb: {
-      type: Function
     }
   },
 
@@ -31,10 +28,9 @@ export default Vue.extend({
         ["switch", SwitchDevice]
       ]);
 
+      const entityId = this.device.entity_id;
       return deviceTypes.get(
-        deviceTypes.has(grabSubstring(this.device.entity_id))
-          ? grabSubstring(this.device.entity_id)
-          : "default"
+        deviceTypes.has(grabSubstring(entityId)) ? grabSubstring(entityId) : "default"
       );
     }
   }

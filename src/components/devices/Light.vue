@@ -19,6 +19,7 @@ import Vue from "vue";
 import { HassEntity } from "@/types";
 import Progress from "@/components/Progress.vue";
 import { grabSubstring } from "@/util/helpers";
+import HaService from "@/util/HaService";
 
 export default Vue.extend({
   name: "LightDevice",
@@ -31,9 +32,6 @@ export default Vue.extend({
     device: {
       type: Object as () => HassEntity,
       required: true
-    },
-    toggleCb: {
-      type: Function
     }
   },
 
@@ -55,17 +53,20 @@ export default Vue.extend({
       };
     },
 
+    entityId(): string {
+      return this.device.entity_id;
+    },
+
     domain(): string {
-      return grabSubstring(this.device.entity_id);
+      return grabSubstring(this.entityId);
     },
 
     brightness(): number {
       const {
-        state,
         attributes: { supported_features: supportedFeatures, brightness }
       } = this.device;
 
-      if (state === "off") {
+      if (!this.active) {
         return 0;
       } else if (supportedFeatures && !brightness) {
         return 100;
@@ -79,11 +80,9 @@ export default Vue.extend({
     toggle() {
       this.loading = true;
 
-      if (this.toggleCb) {
-        this.toggleCb(this.device.entity_id).then(() => {
-          this.loading = false;
-        });
-      }
+      HaService.toggleDevice(this.entityId).then(() => {
+        this.loading = false;
+      });
     }
   }
 });

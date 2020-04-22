@@ -1,5 +1,11 @@
 // Utilizing HA types
-export { HassEntities, HassEntity, Connection } from "home-assistant-js-websocket";
+export {
+  HassEntities,
+  HassEntity,
+  Connection,
+  AuthData,
+  HassUser
+} from "home-assistant-js-websocket";
 
 type DeviceAttributes = {
   // 	Name of the entity
