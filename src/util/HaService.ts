@@ -51,7 +51,7 @@ class HaService {
     return getUser(this.connection);
   }
 
-  getEntities(cb: Function): void {
+  subscribeEntities(cb: Function): void {
     subscribeEntities(this.connection, (entities: HassEntities) => cb(entities));
   }
 

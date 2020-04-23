@@ -79,7 +79,7 @@ export default Vue.extend({
       this.user = user;
     });
 
-    HaService.getEntities((entities: HassEntities) => {
+    HaService.subscribeEntities((entities: HassEntities) => {
       this.entities = entities;
     });
   }
