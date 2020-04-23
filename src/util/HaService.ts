@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import {
   getAuth,
   getUser,
@@ -57,8 +58,14 @@ class HaService {
 
   toggleDevice(entityId: string): Promise<unknown> {
     return callService(this.connection, "homeassistant", "toggle", {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       entity_id: entityId
+    });
+  }
+
+  setBrightness(entityId: string, level: number): Promise<unknown> {
+    return callService(this.connection, "homeassistant", "turn_on", {
+      entity_id: entityId,
+      brightness_pct: level
     });
   }
 }
