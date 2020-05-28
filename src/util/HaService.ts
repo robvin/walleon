@@ -22,10 +22,9 @@ class HaService {
       });
     } catch (err) {
       if (err === ERR_HASS_HOST_REQUIRED) {
-        auth = await getAuth({ hassUrl: "http://localhost:9123" });
+        auth = await getAuth({ hassUrl: "http://localhost:8123" });
       } else {
-        console.log(`Unknown error: ${err}`);
-        return;
+        throw `Unknown error: ${err}`;
       }
     }
     // Clear url if we have been able to establish a connection
