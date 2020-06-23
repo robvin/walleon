@@ -15,7 +15,7 @@
 import Vue from "vue";
 import { HassEntity } from "@/types";
 import { grabSubstring } from "@/util/helpers";
-import HaService from "@/services/ha-service";
+import HaService from "@/services/haService";
 
 export default Vue.extend({
   name: "LightDevice",

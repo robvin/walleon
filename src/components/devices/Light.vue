@@ -19,7 +19,7 @@ import Vue from "vue";
 import { HassEntity } from "@/types";
 import Progress from "@/components/Progress.vue";
 import { grabSubstring } from "@/util/helpers";
-import HaService from "@/services/ha-service";
+import HaService from "@/services/haService";
 
 export default Vue.extend({
   name: "LightDevice",
