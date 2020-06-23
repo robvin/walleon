@@ -43,7 +43,7 @@ import { grabSubstring } from "@/util/helpers";
 import { HassEntity, HassEntities, HassUser } from "@/types";
 import Panel from "@/components/Panel.vue";
 import Device from "@/components/Device.vue";
-import HaService from "@/util/HaService";
+import HaService from "@/services/ha-service";
 
 export default Vue.extend({
   name: "Home",

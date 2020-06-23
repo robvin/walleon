@@ -8,6 +8,7 @@
     "watch": "vue-cli-service build --watch",
     "build": "npm-run-all -ls clean --parallel build:*",
     "build:client": "vue-cli-service build",
+    "demo": "vue-cli-service build --mode demo",
     "lint": "vue-cli-service lint",
     "clean": "rimraf build"
   },

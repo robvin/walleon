@@ -8,8 +8,17 @@ import {
   ERR_HASS_HOST_REQUIRED
 } from "home-assistant-js-websocket";
 import { Connection, HassEntities, AuthData, HassUser } from "@/types";
+import HaMockService from "./haMockService";
 
-class HaService {
+export interface HaServiceInterface{
+  connection: Connection;
+  authenticate(): Promise<void>;
+  getUser(): Promise<HassUser>;
+  subscribeEntities(cb: Function): void;
+  toggleDevice(entityId: string, level: number): Promise<unknown> 
+}
+
+class HaService implements HaServiceInterface {
   connection!: Connection;
 
   async authenticate(): Promise<void> {
@@ -69,4 +78,5 @@ class HaService {
   }
 }
 
-export default new HaService();
+const Service = process.env.VUE_APP_ENV_MODE === "__DEMO__" ? HaMockService : HaService
+export default new Service();
