@@ -1,9 +1,9 @@
 import { HassEntities, HassUser, Connection } from "@/types";
 import { user, entities } from "./haMockData";
-import { HaServiceInterface } from './haService';
+import { HaServiceInterface } from "./haService";
 
 export default class HaMockService implements HaServiceInterface {
-  connection!: Connection; 
+  connection!: Connection;
   entities: HassEntities = entities;
   user: HassUser = user;
 
