@@ -2,7 +2,7 @@
 Control panel for Home Assistant (HomeKit)
 
 ## Live demo
-[View live demo](https://robvin.github.io/addon-walleon/)
+[View live demo](https://demo.walleon.io)
 
 ## Requirements
 * Nodejs 12+
