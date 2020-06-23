@@ -10,12 +10,12 @@ import {
 import { Connection, HassEntities, AuthData, HassUser } from "@/types";
 import HaMockService from "./haMockService";
 
-export interface HaServiceInterface{
+export interface HaServiceInterface {
   connection: Connection;
   authenticate(): Promise<void>;
   getUser(): Promise<HassUser>;
   subscribeEntities(cb: Function): void;
-  toggleDevice(entityId: string, level: number): Promise<unknown> 
+  toggleDevice(entityId: string, level: number): Promise<unknown>;
 }
 
 class HaService implements HaServiceInterface {
@@ -78,5 +78,5 @@ class HaService implements HaServiceInterface {
   }
 }
 
-const Service = process.env.VUE_APP_ENV_MODE === "__DEMO__" ? HaMockService : HaService
+const Service = process.env.VUE_APP_ENV_MODE === "__DEMO__" ? HaMockService : HaService;
 export default new Service();
