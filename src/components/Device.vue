@@ -4,17 +4,18 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Device as DeviceType } from "@/types";
+import { HassEntity } from "@/types";
 import DefaultDevice from "@/components/devices/Default.vue";
 import LightDevice from "@/components/devices/Light.vue";
 import SwitchDevice from "@/components/devices/Switch.vue";
+import { grabSubstring } from "@/util/helpers";
 
 export default Vue.extend({
   name: "Device",
 
   props: {
     device: {
-      type: Object as () => DeviceType,
+      type: Object as () => HassEntity,
       required: true
     }
   },
@@ -27,7 +28,10 @@ export default Vue.extend({
         ["switch", SwitchDevice]
       ]);
 
-      return deviceTypes.get(deviceTypes.has(this.device.domain) ? this.device.domain : "default");
+      const entityId = this.device.entity_id;
+      return deviceTypes.get(
+        deviceTypes.has(grabSubstring(entityId)) ? grabSubstring(entityId) : "default"
+      );
     }
   }
 });

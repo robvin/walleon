@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <Panel class="panel--1" :title="'21:31'">
+    <Panel v-if="user.id !== undefined" class="panel--1" :title="'21:31'">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -20,11 +20,16 @@
         </div>
       </div>
     </Panel>
-    <Panel v-for="(panel, index) in panels" :key="panel.id" class="panel--1" :title="index">
+    <Panel
+      v-for="(panel, index) in panels"
+      :key="index"
+      class="panel--1"
+      :title="panel.attributes.friendly_name"
+    >
       <div class="container-fluid">
         <div class="row grid">
-          <div class="col-6" v-for="device in panel" :key="device.entityId">
-            <Device :device="device" />
+          <div class="col-6" v-for="(device, index) in panel.attributes.entity_id" :key="index">
+            <Device :device="entities[device]" />
           </div>
         </div>
       </div>
@@ -34,10 +39,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ha from "@/util/ha";
-import { Device as DeviceType } from "@/types";
+import { grabSubstring } from "@/util/helpers";
+import { HassEntity, HassEntities, HassUser } from "@/types";
 import Panel from "@/components/Panel.vue";
 import Device from "@/components/Device.vue";
+import HaService from "@/services/haService";
 
 export default Vue.extend({
   name: "Home",
@@ -48,21 +54,33 @@ export default Vue.extend({
   },
 
   data: () => ({
-    devices: [] as DeviceType[]
+    entities: {} as HassEntities,
+    user: {} as HassUser
   }),
 
   computed: {
-    panels(): object {
-      return this.devices.reduce((panels: { [key: string]: DeviceType[] }, device: DeviceType) => {
-        (panels[device.domain] = panels[device.domain] || []).push(device);
-        return panels;
-      }, {});
+    panels(): HassEntity[] {
+      const groups: HassEntity[] = [];
+
+      Object.keys(this.entities).forEach(e => {
+        if (grabSubstring(e) === "group") {
+          groups.push(this.entities[e]);
+        }
+      });
+
+      return groups;
     }
   },
 
-  mounted(): void {
-    ha.getDevices().then((devices: DeviceType[]) => {
-      this.devices = devices;
+  async mounted() {
+    await HaService.authenticate();
+
+    HaService.getUser().then((user: HassUser) => {
+      this.user = user;
+    });
+
+    HaService.subscribeEntities((entities: HassEntities) => {
+      this.entities = entities;
     });
   }
 });

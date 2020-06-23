@@ -73,7 +73,7 @@ function cleanup_docker() {
 }
 
 function run_supervisor() {
-    docker run --rm --privileged \
+    docker run -it --rm --privileged \
         --name hassio_supervisor \
         --security-opt seccomp=unconfined \
         --security-opt apparmor:unconfined \
@@ -105,7 +105,7 @@ function install_addon() {
 
 function restore_snapshot() {
     echo "Restore Snapshot..."
-    ha snapshot restore da15ebf2 --folders=homeassistant
+    ha snapshot restore a8ddce8e --folders=homeassistant
 }
 
 case "$1" in
