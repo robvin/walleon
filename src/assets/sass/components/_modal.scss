@@ -1,0 +1,99 @@
+//
+// Modal
+//
+
+.modal-wrapper{
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.modal-cover{
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(20px);
+    transform: translate3d(0, 0, 0);
+    will-change: backdrop-filter;
+}
+
+.modal{
+    z-index: 1;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: 0 1.5rem 2rem $dark-hint;
+    transform: translate3d(0, 0, 0);
+    transition: all cubic-bezier(0.16, 1, 0.3, 1) 400ms;
+    will-change: height, width, box-shadow, top, left, right, bottom;
+    background: #1d1d1d; // TODO: Decide regarding shades with opacity or fixed colors
+    border-radius: 1rem;
+    border: 1px solid transparent;
+
+    @include media-breakpoint-up(sm) {
+        border-color: $light-separator;
+    }
+
+    &__inner{
+        z-index: 0;
+        position: relative;
+        min-height: 100%;
+        padding: $spacer * 3 $spacer * 2 $spacer * 1 $spacer * 2;
+    }
+
+    &__close{
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: $spacer * 2;
+    }
+}
+
+//
+// Modal transition
+//
+
+.peek-enter-active{
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.peek-leave-active{
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.peek-enter-active,
+.peek-leave-active{
+    transition-property: all;
+    transition-duration: 400ms;
+
+    .modal-cover,
+    .modal,
+    .modal__inner{
+        transition-timing-function: inherit;
+        transition-property: inherit;
+        transition-duration: inherit;
+    }
+}
+
+.peek-enter,
+.peek-leave-to{
+    .modal-cover{
+        backdrop-filter: blur(0px);
+    }
+
+    .modal{
+        box-shadow: 0 0 0 rgba(0,0,0,0);
+        border-color: transparent;
+    }
+
+    .modal__inner{
+        opacity: 0;
+    }
+}

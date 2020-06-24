@@ -22,16 +22,14 @@ export default Vue.extend({
 
   computed: {
     deviceComponent() {
-      const deviceTypes = new Map([
-        ["default", DefaultDevice],
-        ["light", LightDevice],
-        ["switch", SwitchDevice]
-      ]);
-
-      const entityId = this.device.entity_id;
-      return deviceTypes.get(
-        deviceTypes.has(grabSubstring(entityId)) ? grabSubstring(entityId) : "default"
-      );
+      switch (grabSubstring(this.device.entity_id)) {
+        case "light":
+          return LightDevice;
+        case "switch":
+          return SwitchDevice;
+        default:
+          return DefaultDevice;
+      }
     }
   }
 });

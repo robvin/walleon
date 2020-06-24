@@ -10,7 +10,7 @@
     background: $light-separator;
     border-radius: 1rem;
     text-align: left;
-    transition: all ease-out 200ms;
+    transition: all cubic-bezier(0.34, 1.56, 0.64, 1) 500ms;
 
     &::after {
        content: "";
@@ -18,13 +18,16 @@
         padding-bottom: 100%;
     }
 
+    &:not(:disabled):active{
+        transform: scale(0.95);
+    }
+
     &--loading {
-        #{$self}__icon {
-            animation-name: pulse;
-            animation-duration: 500ms;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
+        animation-name: pulse;
+        animation-duration: 500ms;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
     }
 
     &--active {
@@ -79,6 +82,7 @@
     }
 
     &__percentage {
+        z-index: 0;
         position: absolute;
         top: $spacer;
         right: $spacer;
@@ -108,5 +112,33 @@
 
     &__state {
         color: $light-hint;
+    }
+
+    &__table {
+        display: block;
+        border-collapse: collapse;
+        table-layout: fixed;
+        border-top: 1px solid $light-separator;
+
+        th,
+        td {
+            padding: $spacer 0;
+            vertical-align: top;
+            border-bottom: 1px solid $light-separator;
+        }
+
+        th {
+            text-align: left;
+            color: $light-secondary;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+
+        td {
+            text-align: right;
+            color: $light-primary;
+            word-break: break-word;
+            width: 100%;
+        }
     }
 }

@@ -5,6 +5,7 @@
 .progress {
     $self: &;
     position: relative;
+    display: inline-block;
 
     svg {
         display: block;

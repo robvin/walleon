@@ -1,5 +1,5 @@
 <template>
-  <button class="device" :class="classes" @click="toggle" :disabled="loading">
+  <card :active="active" :loading="loading" :disabled="loading" @clicked="toggle()">
     <div class="device__icon" :class="{ 'bg-green': active }">
       <img svg-inline src="@/assets/images/plug.svg" />
     </div>
@@ -8,17 +8,28 @@
       <span class="device__name">{{ device.attributes.friendly_name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
-  </button>
+
+    <template v-slot:modal>
+      <DeviceTable :device="device" />
+    </template>
+  </card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Card from "@/components/Card.vue";
+import DeviceTable from "@/components/DeviceTable.vue";
 import { HassEntity } from "@/types";
 import { grabSubstring } from "@/util/helpers";
 import HaService from "@/services/haService";
 
 export default Vue.extend({
-  name: "LightDevice",
+  name: "SwitchDevice",
+
+  components: {
+    Card,
+    DeviceTable
+  },
 
   props: {
     device: {
@@ -29,20 +40,13 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: false
+      loading: false as boolean
     };
   },
 
   computed: {
     active(): boolean {
       return this.device.state === "on";
-    },
-
-    classes(): object {
-      return {
-        "device--loading": this.loading,
-        "device--active": this.active
-      };
     },
 
     entityId(): string {

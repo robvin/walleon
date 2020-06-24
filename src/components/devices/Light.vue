@@ -1,5 +1,5 @@
 <template>
-  <button class="device" :class="classes" @click="toggle" :disabled="loading">
+  <card :active="active" :loading="loading" :disabled="loading" @clicked="toggle" @moved="onMoved">
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
@@ -11,11 +11,18 @@
       <span class="device__name">{{ device.attributes.friendly_name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
-  </button>
+
+    <template v-slot:modal>
+      <h1 class="large-title">{{ brightness }}%</h1>
+      <DeviceTable :device="device" />
+    </template>
+  </card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Card from "@/components/Card.vue";
+import DeviceTable from "@/components/DeviceTable.vue";
 import { HassEntity } from "@/types";
 import Progress from "@/components/Progress.vue";
 import { grabSubstring } from "@/util/helpers";
@@ -25,6 +32,8 @@ export default Vue.extend({
   name: "LightDevice",
 
   components: {
+    Card,
+    DeviceTable,
     Progress
   },
 
@@ -37,20 +46,13 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: false
+      loading: false as boolean
     };
   },
 
   computed: {
     active(): boolean {
       return this.device.state === "on";
-    },
-
-    classes(): object {
-      return {
-        "device--loading": this.loading,
-        "device--active": this.active
-      };
     },
 
     entityId(): string {
