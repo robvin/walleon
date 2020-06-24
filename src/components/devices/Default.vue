@@ -1,8 +1,8 @@
 <template>
   <card :active="active" :loading="loading" :disabled="loading" @clicked="toggle()">
     <div class="device__info">
-      <span class="device__room">{{ device.domain }}</span>
-      <span class="device__name">{{ device.name }}</span>
+      <span class="device__room">{{ domain }}</span>
+      <span class="device__name">{{ device.attributes.friendly_name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
   </card>
@@ -10,8 +10,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Device as DeviceType } from "@/types";
 import Card from "@/components/Card.vue";
+import { HassEntity } from "@/types";
+import { grabSubstring } from "@/util/helpers";
+import HaService from "@/services/haService";
 
 export default Vue.extend({
   name: "DefaultDevice",
@@ -22,7 +24,7 @@ export default Vue.extend({
 
   props: {
     device: {
-      type: Object as () => DeviceType,
+      type: Object as () => HassEntity,
       required: true
     }
   },
@@ -36,6 +38,14 @@ export default Vue.extend({
   computed: {
     active(): boolean {
       return this.device.state === "on";
+    },
+
+    entityId(): string {
+      return this.device.entity_id;
+    },
+
+    domain(): string {
+      return grabSubstring(this.entityId);
     }
   },
 
@@ -43,10 +53,9 @@ export default Vue.extend({
     toggle() {
       this.loading = true;
 
-      setTimeout(() => {
+      HaService.toggleDevice(this.entityId).then(() => {
         this.loading = false;
-        alert("Not sure what to do with the default device");
-      }, Math.random() * 3000);
+      });
     }
   }
 });

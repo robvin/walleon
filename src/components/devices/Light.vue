@@ -3,18 +3,18 @@
     :active="active"
     :loading="loading"
     :disabled="loading"
-    @clicked="onClicked"
+    @clicked="toggle"
     @moved="onMoved"
   >
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
-    <div class="device__percentage">
-      <Progress :value="device.state === 'on' ? percentage : 0" :min="0" :max="1" />
+    <div v-if="device.attributes.supported_features === 1" class="device__percentage">
+      <Progress :value="brightness" />
     </div>
     <div class="device__info">
-      <span class="device__room">{{ device.domain }}</span>
-      <span class="device__name">{{ device.name }}</span>
+      <span class="device__room">{{ domain }}</span>
+      <span class="device__name">{{ device.attributes.friendly_name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
 
@@ -29,9 +29,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Device as DeviceType } from "@/types";
 import Card from "@/components/Card.vue";
+import { HassEntity } from "@/types";
 import Progress from "@/components/Progress.vue";
+import { grabSubstring } from "@/util/helpers";
+import HaService from "@/services/haService";
 
 export default Vue.extend({
   name: "LightDevice",
@@ -43,7 +45,7 @@ export default Vue.extend({
 
   props: {
     device: {
-      type: Object as () => DeviceType,
+      type: Object as () => HassEntity,
       required: true
     }
   },
@@ -58,17 +60,38 @@ export default Vue.extend({
   computed: {
     active(): boolean {
       return this.device.state === "on";
+    },
+
+    entityId(): string {
+      return this.device.entity_id;
+    },
+
+    domain(): string {
+      return grabSubstring(this.entityId);
+    },
+
+    brightness(): number {
+      const {
+        attributes: { supported_features: supportedFeatures, brightness }
+      } = this.device;
+
+      if (!this.active) {
+        return 0;
+      } else if (supportedFeatures && !brightness) {
+        return 100;
+      }
+
+      return Math.floor((brightness / 255) * 100);
     }
   },
 
   methods: {
-    onClicked() {
+    toggle() {
       this.loading = true;
 
-      setTimeout(() => {
+      HaService.toggleDevice(this.entityId).then(() => {
         this.loading = false;
-        this.device.state = this.active ? "off" : "on";
-      }, Math.random() * 3000);
+      });
     },
 
     onMoved(event: TouchEvent | PointerEvent, x: number, y: number) {

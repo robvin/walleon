@@ -1,4 +1,4 @@
-ARG BUILD_FROM=alpine:3.11.3
+ARG BUILD_FROM=alpine:3.11.6
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -21,7 +21,6 @@ RUN set -o pipefail \
     #
     && apk add --no-cache --virtual .build-dependencies \
         curl=7.67.0-r0 \
-        git=2.24.1-r0 \
         tar=1.32-r1 \
         npm=12.15.0-r1 \
     #
