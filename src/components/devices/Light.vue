@@ -1,11 +1,5 @@
 <template>
-  <card
-    :active="active"
-    :loading="loading"
-    :disabled="loading"
-    @clicked="toggle"
-    @moved="onMoved"
-  >
+  <card :active="active" :loading="loading" :disabled="loading" @clicked="toggle" @moved="onMoved">
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
