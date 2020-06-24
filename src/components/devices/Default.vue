@@ -1,8 +1,8 @@
 <template>
-  <button class="device" :class="classes" @click="toggle()" :disabled="loading">
+  <button class="device" :class="classes" @click="toggle" :disabled="loading">
     <div class="device__info">
-      <span class="device__room">{{ device.domain }}</span>
-      <span class="device__name">{{ device.name }}</span>
+      <span class="device__room">{{ domain }}</span>
+      <span class="device__name">{{ device.attributes.friendly_name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
   </button>
@@ -10,14 +10,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Device as DeviceType } from "@/types";
+import { HassEntity } from "@/types";
+import { grabSubstring } from "@/util/helpers";
+import HaService from "@/services/haService";
 
 export default Vue.extend({
   name: "DefaultDevice",
 
   props: {
     device: {
-      type: Object as () => DeviceType,
+      type: Object as () => HassEntity,
       required: true
     }
   },
@@ -38,6 +40,14 @@ export default Vue.extend({
         "device--loading": this.loading,
         "device--active": this.active
       };
+    },
+
+    entityId(): string {
+      return this.device.entity_id;
+    },
+
+    domain(): string {
+      return grabSubstring(this.entityId);
     }
   },
 
@@ -45,10 +55,9 @@ export default Vue.extend({
     toggle() {
       this.loading = true;
 
-      setTimeout(() => {
+      HaService.toggleDevice(this.entityId).then(() => {
         this.loading = false;
-        alert("Not sure what to do with the default device");
-      }, Math.random() * 3000);
+      });
     }
   }
 });
