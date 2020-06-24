@@ -113,4 +113,32 @@
     &__state {
         color: $light-hint;
     }
+
+    &__table {
+        display: block;
+        border-collapse: collapse;
+        table-layout: fixed;
+        border-top: 1px solid $light-separator;
+
+        th,
+        td {
+            padding: $spacer 0;
+            vertical-align: top;
+            border-bottom: 1px solid $light-separator;
+        }
+
+        th {
+            text-align: left;
+            color: $light-secondary;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+
+        td {
+            text-align: right;
+            color: $light-primary;
+            word-break: break-word;
+            width: 100%;
+        }
+    }
 }

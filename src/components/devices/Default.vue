@@ -5,12 +5,17 @@
       <span class="device__name">{{ device.attributes.friendly_name }}</span>
       <span class="device__state">{{ device.state }}</span>
     </div>
+
+    <template v-slot:modal>
+      <DeviceTable :device="device" />
+    </template>
   </card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Card from "@/components/Card.vue";
+import DeviceTable from "@/components/DeviceTable.vue";
 import { HassEntity } from "@/types";
 import { grabSubstring } from "@/util/helpers";
 import HaService from "@/services/haService";
@@ -19,7 +24,8 @@ export default Vue.extend({
   name: "DefaultDevice",
 
   components: {
-    Card
+    Card,
+    DeviceTable
   },
 
   props: {

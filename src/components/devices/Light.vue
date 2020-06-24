@@ -13,10 +13,8 @@
     </div>
 
     <template v-slot:modal>
-      <h1 class="large-title">{{ Math.floor(percentage * 100) }}%</h1>
-      <pre>
-        {{ device }}
-      </pre>
+      <h1 class="large-title">{{ brightness }}%</h1>
+      <DeviceTable :device="device" />
     </template>
   </card>
 </template>
@@ -24,6 +22,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Card from "@/components/Card.vue";
+import DeviceTable from "@/components/DeviceTable.vue";
 import { HassEntity } from "@/types";
 import Progress from "@/components/Progress.vue";
 import { grabSubstring } from "@/util/helpers";
@@ -34,6 +33,7 @@ export default Vue.extend({
 
   components: {
     Card,
+    DeviceTable,
     Progress
   },
 
@@ -46,8 +46,7 @@ export default Vue.extend({
 
   data() {
     return {
-      loading: false as boolean,
-      percentage: 0 as number
+      loading: false as boolean
     };
   },
 
@@ -86,18 +85,6 @@ export default Vue.extend({
       HaService.toggleDevice(this.entityId).then(() => {
         this.loading = false;
       });
-    },
-
-    onMoved(event: TouchEvent | PointerEvent, x: number, y: number) {
-      const percentage = this.percentage + -y / 150;
-
-      if (percentage > 1) {
-        this.percentage = 1;
-      } else if (percentage < 0) {
-        this.percentage = 0;
-      } else {
-        this.percentage = percentage;
-      }
     }
   }
 });
