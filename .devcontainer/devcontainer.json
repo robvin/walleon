@@ -20,7 +20,7 @@
 		// Cache docker images between devcontainer rebuilds (and share between devcontainers)
 		"source=vsc-hassio-docker,target=/var/lib/docker,type=volume",
 		// Persistant Home Assistant configuration
-		"source=${localWorkspaceFolder}/.devcontainer/data,target=/workspaces/test_hassio/homeassistant,type=bind"
+		// "source=${localWorkspaceFolder}/.devcontainer/data,target=/workspaces/test_hassio/homeassistant,type=volume"
 	],
 
 	// Post-create command to initialize the workspace.  For example, for a node.js add-on you may want:
