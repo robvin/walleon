@@ -32,26 +32,13 @@ npm run build
 ## Run addon with Hass.io
 #### Prerequisite
 * Docker 18.06.0+
-* VS Code
+* VS Code Remote Containers extension
 
-In VS Code run following tasks:
+In VS Code click the left bottom corner and Reopen in Container.
+This will mount the project inside the container. To start Hass.io
+go to tasks and select Start Hass.io.
 
-```
-Run Hass.io enviroment
-```
-Wait for the Supervisor to start, then run:
-```
-Start Addon
-```
-
-To get started with some fake devices run task:
-```
-Restore Home Assistant Snapshot
-```
-Login with master / password
-
-#### Hassio `localhost:9123`
-#### Walleon `localhost:8080`
+The addon will be available in Supervisor.
 
 ## More
 ### Client lints and fixes files
