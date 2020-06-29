@@ -1,6 +1,6 @@
 {
   "name": "Walleon",
-  "version": "dev",
+  "version": "beta",
   "slug": "walleon",
   "description": "Control panel for Home Assistant",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -14,5 +14,6 @@
   "ports": {
     "8080/tcp": 8081
   },
-  "webui": "http://[HOST]:[PORT:8081]/"
+  "webui": "http://[HOST]:[PORT:8081]/",
+  "image": "robvin/walleon-{arch}"
 }
