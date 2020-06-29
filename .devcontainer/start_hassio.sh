@@ -70,6 +70,18 @@ function cleanup_docker() {
     docker rm $(docker ps -a -q)
 }
 
+function deploy_addon() {
+    echo "Deploying Local Addon..."
+    
+    echo $2 | docker login -u $1 --password-stdin
+
+    docker run --rm --privileged \
+        -v ~/.docker:/root/.docker \
+        -v /run/docker.sock:/run/docker.sock:rw \
+        -v $(pwd):/data:ro \
+        homeassistant/amd64-builder --all -t /data
+}
+
 function run_supervisor() {
     docker run --rm --privileged \
         --name hassio_supervisor \
@@ -91,6 +103,9 @@ case "$1" in
         echo "Cleaning up old environment"
         cleanup_docker || true
         cleanup_hass_data || true
+        exit 0;;
+    "--deploy-local-addon")
+        deploy_addon $2 $3
         exit 0;;
     *)
         echo "Creating development Hass.io environment"
