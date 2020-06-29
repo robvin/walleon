@@ -14,5 +14,5 @@
   "ports": {
     "8080/tcp": 8081
   },
-  "webui": "[PROTO:option_name]://[HOST]:[PORT:8080]/"
+  "webui": "http://[HOST]:[PORT:8081]/"
 }
