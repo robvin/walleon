@@ -31,11 +31,10 @@ RUN \
         bash=5.0.17-r0 \
         nodejs=12.17.0-r0 \
     #
-    # Install app dependencies and compile
-    && npm install --prefix /tmp \
-    && npm run build --prefix /tmp \
-    && mkdir -p /opt/walleon/public \
-    && mv -f /tmp/build/public/* /opt/walleon/public/ \
+    # Download app files
+    && mkdir -p /opt/walleon \
+    && curl -L -s "https://github.com/robvin/walleon/releases/download/pre-alpha/walleon.tar.gz" \
+        | tar zxvf - -C /opt/walleon \
     #
     && apk del --purge .build-dependencies \
     && rm -fr /etc/nginx/* \
