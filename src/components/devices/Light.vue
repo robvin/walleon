@@ -3,7 +3,7 @@
     <div class="device__icon" :class="{ 'bg-yellow': active }">
       <img svg-inline src="@/assets/images/light.svg" />
     </div>
-    <div v-if="device.attributes.supported_features === 1" class="device__percentage">
+    <div v-if="device.attributes.supported_features === 33" class="device__percentage">
       <Progress :value="brightness" />
     </div>
     <div class="device__info">
