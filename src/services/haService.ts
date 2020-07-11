@@ -31,8 +31,8 @@ class HaService implements HaServiceInterface {
       });
     } catch (err) {
       if (err === ERR_HASS_HOST_REQUIRED) {
-        const hassUrl = `${window.location.protocol}//${window.location.hostname}:${process.env
-          .VUE_APP_HA_PORT}`;
+        const hassUrl = `${window.location.protocol}//${process.env.VUE_APP_HA_HOSTNAME ||
+          window.location.hostname}:${process.env.VUE_APP_HA_PORT}`;
         auth = await getAuth({ hassUrl });
       } else {
         throw `Unknown error: ${err}`;
